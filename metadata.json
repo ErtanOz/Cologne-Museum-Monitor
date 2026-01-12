@@ -1,0 +1,5 @@
+{
+  "name": "Cologne Museum Monitor",
+  "description": "A real-time dashboard tracking ratings and reviews of top museums in Cologne using the Gemini API with Google Maps grounding. A robust, serverless alternative to Python scraping.",
+  "requestFramePermissions": []
+}
