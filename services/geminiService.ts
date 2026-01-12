@@ -12,15 +12,15 @@ async function retry<T>(fn: () => Promise<T>, retries = 3, delayMs = 2000): Prom
     return await fn();
   } catch (error: any) {
     if (retries <= 0) throw error;
-    
+
     const msg = error?.message || JSON.stringify(error);
     // Retry on server errors or rate limits
     const isServerSideError = msg.includes('500') || msg.includes('503') || msg.includes('Internal error') || msg.includes('429');
-    
+
     if (isServerSideError) {
-       console.warn(`Gemini API Error (Retrying... ${retries} attempts left): ${msg}`);
-       await delay(delayMs);
-       return retry(fn, retries - 1, delayMs * 2);
+      console.warn(`Gemini API Error (Retrying... ${retries} attempts left): ${msg}`);
+      await delay(delayMs);
+      return retry(fn, retries - 1, delayMs * 2);
     }
     throw error;
   }
@@ -30,7 +30,7 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
   // Batch requests to avoid hitting token limits or complexity errors with the Maps tool.
   const BATCH_SIZE = 3;
   const batches = [];
-  
+
   for (let i = 0; i < museumNames.length; i += BATCH_SIZE) {
     batches.push(museumNames.slice(i, i + BATCH_SIZE));
   }
@@ -65,7 +65,7 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
         `;
 
         const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash", 
+          model: "gemini-1.5-flash",
           contents: prompt,
           config: {
             tools: [{ googleMaps: {} }],
@@ -75,11 +75,11 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
 
         const text = response.text || "";
         const cleanText = text.replace(/```json|```/g, '').trim();
-        
+
         try {
           const parsed = JSON.parse(cleanText);
           if (Array.isArray(parsed)) {
-              return parsed;
+            return parsed;
           }
           return [];
         } catch (e) {
@@ -92,7 +92,7 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
 
       // Add a small delay between batches to respect rate limits and backend stability
       if (batches.indexOf(batch) < batches.length - 1) {
-        await delay(1000); 
+        await delay(1000);
       }
 
     } catch (error) {
@@ -102,7 +102,7 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
   }
 
   if (flatResults.length === 0) {
-      throw new Error("No data could be retrieved from Google Maps. The service might be overloaded.");
+    throw new Error("No data could be retrieved from Google Maps. The service might be overloaded.");
   }
 
   // Validate and map data
@@ -112,12 +112,12 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
     reviewCount: typeof item.reviewCount === 'number' ? item.reviewCount : parseInt(item.reviewCount) || 0,
     address: item.address || "",
     url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((item.name || "") + " Cologne")}`,
-    keywords: Array.isArray(item.keywords) 
+    keywords: Array.isArray(item.keywords)
       ? item.keywords.map((k: any) => ({
-          text: typeof k.text === 'string' ? k.text : "Keyword",
-          // Ensure value is an integer between 1 and 10
-          value: typeof k.value === 'number' ? Math.max(1, Math.min(10, Math.round(k.value))) : 5
-        })) 
+        text: typeof k.text === 'string' ? k.text : "Keyword",
+        // Ensure value is an integer between 1 and 10
+        value: typeof k.value === 'number' ? Math.max(1, Math.min(10, Math.round(k.value))) : 5
+      }))
       : [],
     sentiment: item.sentiment || { positive: 0, neutral: 0, negative: 0 }
   }));
