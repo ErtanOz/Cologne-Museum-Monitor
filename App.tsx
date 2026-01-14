@@ -43,18 +43,21 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>(LOADING_MESSAGES[0]);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Filters
   const [minRatingFilter, setMinRatingFilter] = useState<number>(0);
   const [timeRange, setTimeRange] = useState<string>('1y');
-  
+
   const [selectedMuseumId, setSelectedMuseumId] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  // Mobile sidebar toggle
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
     setError(null);
-    
+
     // Cycle through loading messages to give user feedback on the process
     let msgIndex = 0;
     setLoadingMessage(LOADING_MESSAGES[0]);
@@ -67,10 +70,10 @@ const App: React.FC = () => {
       // In a real app, we might check localStorage first for today's cache
       // For this demo, we fetch live from Gemini
       const fetchedData = await fetchMuseumData(TARGET_MUSEUMS);
-      
+
       // Sort by rating descending by default
       const sortedData = fetchedData.sort((a, b) => b.rating - a.rating);
-      
+
       setData(sortedData);
       setLastUpdated(new Date());
 
@@ -78,7 +81,7 @@ const App: React.FC = () => {
       // In a real deployed app, this would come from a database.
       const mockHistory = generateMockHistory(sortedData);
       setHistory(mockHistory);
-      
+
       if (sortedData.length > 0) {
         setSelectedMuseumId(sortedData[0].name);
       }
@@ -103,7 +106,7 @@ const App: React.FC = () => {
   const filteredHistory = useMemo(() => {
     const now = new Date();
     let cutoffDate = new Date();
-    
+
     switch (timeRange) {
       case '1m':
         cutoffDate.setMonth(now.getMonth() - 1);
@@ -133,9 +136,9 @@ const App: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
-      <Sidebar 
-        minRating={minRatingFilter} 
-        onFilterChange={setMinRatingFilter} 
+      <Sidebar
+        minRating={minRatingFilter}
+        onFilterChange={setMinRatingFilter}
         timeRange={timeRange}
         onTimeRangeChange={setTimeRange}
         onRefresh={loadData}
@@ -147,7 +150,7 @@ const App: React.FC = () => {
 
         <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
           {error && <ErrorDisplay message={error} onRetry={loadData} />}
-          
+
           {loading && !data.length ? (
             <Loader message={loadingMessage} />
           ) : (
@@ -176,7 +179,7 @@ const App: React.FC = () => {
                       </span>
                     </div>
                     <div className="h-48">
-                       <TrendChart data={selectedMuseumHistory} />
+                      <TrendChart data={selectedMuseumHistory} />
                     </div>
                   </div>
 
@@ -197,7 +200,7 @@ const App: React.FC = () => {
 
                     {/* Word Cloud */}
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col">
-                       <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
                         Review Topics
                       </h3>
                       <div className="flex-1 min-h-[120px] bg-slate-50 rounded-lg border border-slate-100">
@@ -216,8 +219,8 @@ const App: React.FC = () => {
                 <div className="p-6 border-b border-slate-100">
                   <h3 className="text-lg font-semibold text-slate-800">Museum Data Table</h3>
                 </div>
-                <MuseumTable 
-                  data={filteredData} 
+                <MuseumTable
+                  data={filteredData}
                   onSelect={setSelectedMuseumId}
                   selectedId={selectedMuseumId}
                 />
@@ -240,13 +243,13 @@ function generateMockHistory(currentData: MuseumData[]): MuseumHistory[] {
     for (let i = 11; i >= 0; i--) {
       const date = new Date(today);
       date.setMonth(date.getMonth() - i);
-      
-      const variance = Math.random() * 0.4 - 0.2; 
-      const reviewVariance = Math.floor(Math.random() * 200); 
-      
+
+      const variance = Math.random() * 0.4 - 0.2;
+      const reviewVariance = Math.floor(Math.random() * 200);
+
       let pastRating = museum.rating + variance;
       pastRating = Math.max(1, Math.min(5, pastRating));
-      
+
       const pastReviews = Math.max(0, museum.reviewCount - (i * reviewVariance));
 
       history.push({
