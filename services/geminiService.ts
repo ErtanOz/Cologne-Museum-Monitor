@@ -3,7 +3,7 @@ import { MuseumData } from "../types";
 
 // Initialize the API client. 
 // We rely on the generic API key env var as per instructions.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: (import.meta as any).env.VITE_GEMINI_API_KEY });
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
