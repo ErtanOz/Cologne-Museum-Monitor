@@ -29,7 +29,7 @@ const TARGET_MUSEUMS = [
 ];
 
 const LOADING_MESSAGES = [
-  "Initializing Gemini Maps Grounding...",
+  "Initializing AI Maps Grounding...",
   "Searching for Cologne museums...",
   "Fetching ratings and review counts...",
   "Analyzing review sentiment...",
@@ -67,8 +67,6 @@ const App: React.FC = () => {
     }, 2500);
 
     try {
-      // In a real app, we might check localStorage first for today's cache
-      // For this demo, we fetch live from Gemini
       const fetchedData = await fetchMuseumData(TARGET_MUSEUMS);
 
       // Sort by rating descending by default
@@ -77,8 +75,7 @@ const App: React.FC = () => {
       setData(sortedData);
       setLastUpdated(new Date());
 
-      // Simulate history for the trend chart since we can't actually scrape daily in this session
-      // In a real deployed app, this would come from a database.
+      // Simulate history for the trend chart
       const mockHistory = generateMockHistory(sortedData);
       setHistory(mockHistory);
 
@@ -97,7 +94,7 @@ const App: React.FC = () => {
   useEffect(() => {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run once on mount
+  }, []);
 
   // Filter data (Main Table)
   const filteredData = data.filter(m => m.rating >= minRatingFilter);
@@ -131,24 +128,53 @@ const App: React.FC = () => {
 
   // Prepare data for details view
   const selectedMuseum = data.find(m => m.name === selectedMuseumId);
-  // Filter history for specific museum AND time range
   const selectedMuseumHistory = filteredHistory.filter(h => h.name === selectedMuseumId);
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden">
-      <Sidebar
-        minRating={minRatingFilter}
-        onFilterChange={setMinRatingFilter}
-        timeRange={timeRange}
-        onTimeRangeChange={setTimeRange}
-        onRefresh={loadData}
-        loading={loading}
-      />
+    <div className="flex h-screen bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-slate-900 text-white rounded-lg shadow-lg hover:bg-slate-800 transition-all duration-200 hover:scale-105"
+        aria-label="Toggle menu"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {sidebarOpen ? (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          )}
+        </svg>
+      </button>
+
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity animate-fadeIn"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`
+        fixed lg:static inset-y-0 left-0 z-40
+        transform transition-transform duration-300 ease-in-out
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        <Sidebar
+          minRating={minRatingFilter}
+          onFilterChange={setMinRatingFilter}
+          timeRange={timeRange}
+          onTimeRangeChange={setTimeRange}
+          onRefresh={loadData}
+          loading={loading}
+        />
+      </div>
 
       <main className="flex-1 flex flex-col h-full overflow-y-auto">
         <Header lastUpdated={lastUpdated} title="Cologne Museum Monitor" />
 
-        <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+        <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
           {error && <ErrorDisplay message={error} onRetry={loadData} />}
 
           {loading && !data.length ? (
@@ -157,24 +183,32 @@ const App: React.FC = () => {
             <>
               <MetricCards topMuseums={top3} />
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
                 {/* Left Column: Ranking */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-4">Current Ratings Ranking</h3>
+                <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-slate-200 flex flex-col hover:shadow-xl transition-all duration-300 animate-slideUp">
+                  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Current Ratings Ranking
+                  </h3>
                   <div className="flex-1 min-h-[300px]">
                     <RankingChart data={filteredData} />
                   </div>
                 </div>
 
                 {/* Right Column: Selected Museum Details */}
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4 sm:gap-6">
                   {/* Trend Chart */}
-                  <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-lg font-semibold text-slate-800">
-                        History: {selectedMuseumId || 'Select a Museum'}
+                  <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '100ms' }}>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                      <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                        </svg>
+                        <span className="truncate">History: {selectedMuseumId || 'Select a Museum'}</span>
                       </h3>
-                      <span className="text-xs font-medium text-indigo-600 bg-indigo-50 px-2 py-1 rounded">
+                      <span className="text-xs font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full whitespace-nowrap">
                         Last {timeRange === '1y' ? '1 Year' : timeRange === '6m' ? '6 Months' : timeRange === '3m' ? '3 Months' : '1 Month'}
                       </span>
                     </div>
@@ -183,11 +217,14 @@ const App: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     {/* Sentiment Analysis */}
-                    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                      <h3 className="text-lg font-semibold text-slate-800 mb-4">
-                        Sentiment Analysis
+                    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '200ms' }}>
+                      <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Sentiment
                       </h3>
                       <div className="min-h-[120px] flex items-center justify-center">
                         {selectedMuseum ? (
@@ -199,11 +236,14 @@ const App: React.FC = () => {
                     </div>
 
                     {/* Word Cloud */}
-                    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col">
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-slate-200 flex flex-col hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '300ms' }}>
+                      <h3 className="text-lg font-semibold text-slate-800 mb-2 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                        </svg>
                         Review Topics
                       </h3>
-                      <div className="flex-1 min-h-[120px] bg-slate-50 rounded-lg border border-slate-100">
+                      <div className="flex-1 min-h-[120px] bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg border border-slate-200">
                         {selectedMuseum ? (
                           <WordCloud keywords={selectedMuseum.keywords} />
                         ) : (
@@ -215,9 +255,14 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                <div className="p-6 border-b border-slate-100">
-                  <h3 className="text-lg font-semibold text-slate-800">Museum Data Table</h3>
+              <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '400ms' }}>
+                <div className="p-4 sm:p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
+                  <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    Museum Data Table
+                  </h3>
                 </div>
                 <MuseumTable
                   data={filteredData}
