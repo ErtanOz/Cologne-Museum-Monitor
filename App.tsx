@@ -183,92 +183,82 @@ const App: React.FC = () => {
             <>
               <MetricCards topMuseums={top3} />
 
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
-                {/* Left Column: Ranking */}
-                <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-slate-200 flex flex-col hover:shadow-xl transition-all duration-300 animate-slideUp">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
-                    <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    Current Ratings Ranking
-                  </h3>
-                  <div className="flex-1 min-h-[300px]">
-                    <RankingChart data={filteredData} />
+              {/* Main Dashboard: Selected Museum Focus */}
+              <div className="space-y-6">
+                <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-500 animate-slideUp">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-indigo-50 rounded-lg">
+                        <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                        </svg>
+                      </div>
+                      <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+                        History: {selectedMuseumId || 'Select a Museum'}
+                      </h2>
+                    </div>
+                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full shadow-sm border border-indigo-100">
+                      Last {timeRange === '1y' ? '1 Year' : timeRange === '6m' ? '6 Months' : timeRange === '3m' ? '3 Months' : '1 Month'}
+                    </span>
+                  </div>
+
+                  <div className="h-[400px]">
+                    <TrendChart data={selectedMuseumHistory} />
                   </div>
                 </div>
 
-                {/* Right Column: Selected Museum Details */}
-                <div className="flex flex-col gap-4 sm:gap-6">
-                  {/* Trend Chart */}
-                  <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '100ms' }}>
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-                      <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                        </svg>
-                        <span className="truncate">History: {selectedMuseumId || 'Select a Museum'}</span>
-                      </h3>
-                      <span className="text-xs font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full whitespace-nowrap">
-                        Last {timeRange === '1y' ? '1 Year' : timeRange === '6m' ? '6 Months' : timeRange === '3m' ? '3 Months' : '1 Month'}
-                      </span>
-                    </div>
-                    <div className="h-48">
-                      <TrendChart data={selectedMuseumHistory} />
-                    </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Sentiment Card */}
+                  <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-500 animate-slideUp" style={{ animationDelay: '100ms' }}>
+                    {selectedMuseum ? (
+                      <SentimentAnalysis sentiment={selectedMuseum.sentiment} />
+                    ) : (
+                      <div className="h-64 flex items-center justify-center text-slate-400 text-sm italic">Select a museum to view sentiment</div>
+                    )}
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                    {/* Sentiment Analysis */}
-                    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-slate-200 hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '200ms' }}>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Sentiment
-                      </h3>
-                      <div className="min-h-[120px] flex items-center justify-center">
-                        {selectedMuseum ? (
-                          <SentimentAnalysis sentiment={selectedMuseum.sentiment} />
-                        ) : (
-                          <span className="text-slate-400 text-sm">Select a museum</span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Word Cloud */}
-                    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-slate-200 flex flex-col hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '300ms' }}>
-                      <h3 className="text-lg font-semibold text-slate-800 mb-2 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                        </svg>
-                        Review Topics
-                      </h3>
-                      <div className="flex-1 min-h-[120px] bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg border border-slate-200">
-                        {selectedMuseum ? (
-                          <WordCloud keywords={selectedMuseum.keywords} />
-                        ) : (
-                          <div className="h-full flex items-center justify-center text-slate-400 text-sm">Select a museum</div>
-                        )}
-                      </div>
-                    </div>
+                  {/* Review Topics Card */}
+                  <div className="bg-white p-2 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-500 animate-slideUp" style={{ animationDelay: '200ms' }}>
+                    {selectedMuseum ? (
+                      <WordCloud keywords={selectedMuseum.keywords} />
+                    ) : (
+                      <div className="h-64 flex items-center justify-center text-slate-400 text-sm italic">Select a museum to view topics</div>
+                    )}
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '400ms' }}>
-                <div className="p-4 sm:p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
-                  <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+              {/* Secondary View: Global Rankings & All Data */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 pt-6">
+                {/* Ranking Chart */}
+                <div className="xl:col-span-1 bg-white p-6 rounded-2xl shadow-lg border border-slate-200 flex flex-col hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '300ms' }}>
+                  <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
                     <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
-                    Museum Data Table
+                    Top Ratings Ranking
                   </h3>
+                  <div className="flex-1">
+                    <RankingChart data={filteredData} />
+                  </div>
                 </div>
-                <MuseumTable
-                  data={filteredData}
-                  onSelect={setSelectedMuseumId}
-                  selectedId={selectedMuseumId}
-                />
+
+                {/* Museum Data Table */}
+                <div className="xl:col-span-2 bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '400ms' }}>
+                  <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+                    <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                      <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      All Museums Data
+                    </h3>
+                  </div>
+                  <MuseumTable
+                    data={filteredData}
+                    onSelect={setSelectedMuseumId}
+                    selectedId={selectedMuseumId}
+                  />
+                </div>
               </div>
             </>
           )}

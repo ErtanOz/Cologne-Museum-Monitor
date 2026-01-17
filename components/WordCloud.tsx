@@ -1,5 +1,5 @@
 import React from 'react';
-import { TagIcon } from '@heroicons/react/24/outline';
+import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 
 interface WordCloudProps {
   keywords: { text: string; value: number }[];
@@ -8,50 +8,58 @@ interface WordCloudProps {
 export const WordCloud: React.FC<WordCloudProps> = ({ keywords }) => {
   if (!keywords || keywords.length === 0) {
     return (
-      <div className="h-48 flex flex-col items-center justify-center text-slate-400 text-sm border-2 border-dashed border-slate-100 rounded-lg">
-        <TagIcon className="w-8 h-8 mb-2 opacity-50" />
-        <p>No keywords available</p>
+      <div className="h-64 flex flex-col items-center justify-center text-slate-400 text-sm border-2 border-dashed border-slate-100 rounded-xl bg-slate-50/50">
+        <ChatBubbleLeftRightIcon className="w-10 h-10 mb-2 opacity-20" />
+        <p className="font-medium">No topics identified yet</p>
       </div>
     );
   }
 
-  // Normalize values for sizing logic (min 1, max 10 from API)
-  // We map 1-10 to font sizes 0.75rem to 1.5rem
+  // Map values 1-10 to font sizes 1.25rem to 2.5rem for a "premium" list feel
   const getFontSize = (value: number) => {
-    const minSize = 0.75;
-    const maxSize = 1.75;
-    const normalized = Math.max(0, Math.min(10, value)) / 10; // 0 to 1
+    const minSize = 1.25;
+    const maxSize = 2.5;
+    const normalized = Math.max(0, Math.min(10, value)) / 10;
     return `${minSize + (normalized * (maxSize - minSize))}rem`;
   };
 
   const getOpacity = (value: number) => {
-    return 0.6 + (value / 10) * 0.4;
+    return 0.7 + (value / 10) * 0.3;
   };
 
+  // High-end curated purple/blue palette
   const colors = [
     'text-indigo-600',
-    'text-blue-600',
     'text-violet-600',
+    'text-blue-600',
+    'text-purple-600',
     'text-fuchsia-600',
-    'text-slate-600',
-    'text-cyan-600'
+    'text-indigo-500',
   ];
 
   return (
-    <div className="h-full flex flex-wrap items-center justify-center content-center gap-x-4 gap-y-2 p-4">
-      {keywords.map((word, idx) => (
-        <span
-          key={idx}
-          className={`font-semibold transition-all duration-300 hover:scale-110 cursor-default ${colors[idx % colors.length]}`}
-          style={{
-            fontSize: getFontSize(word.value),
-            opacity: getOpacity(word.value),
-          }}
-          title={`Relevance score: ${word.value}/10`}
-        >
-          {word.text}
-        </span>
-      ))}
+    <div className="h-full flex flex-col items-center justify-center p-6 bg-slate-50/30 rounded-xl border border-slate-100/50">
+      <div className="flex items-center gap-2 mb-6 self-start">
+        <ChatBubbleLeftRightIcon className="w-6 h-6 text-indigo-600" />
+        <h3 className="text-xl font-bold text-slate-800">Review Topics</h3>
+      </div>
+
+      <div className="flex-1 flex flex-col items-center justify-center gap-1 w-full scale-90 sm:scale-100">
+        {keywords.slice(0, 5).map((word, idx) => (
+          <span
+            key={idx}
+            className={`font-black tracking-tight leading-tight transition-all duration-500 hover:scale-110 cursor-default drop-shadow-sm ${colors[idx % colors.length]}`}
+            style={{
+              fontSize: getFontSize(word.value),
+              opacity: getOpacity(word.value),
+              textAlign: 'center'
+            }}
+            title={`Topic importance: ${word.value}/10`}
+          >
+            {word.text}
+          </span>
+        ))}
+      </div>
     </div>
   );
 };

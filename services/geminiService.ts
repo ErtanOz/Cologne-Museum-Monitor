@@ -45,7 +45,7 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
     5. A list of 6-8 common keywords/themes mentioned in reviews. Assign a relevance score (1-10) to each.
     6. An estimated sentiment distribution (positive, neutral, negative percentages).
     
-    Return the data as a valid JSON array of objects. 
+    Return a standard JSON object with a single key "museums" containing an array of objects.
     Each object must have: "name", "rating", "reviewCount", "address", "keywords", "sentiment".
     "keywords" format: [{"text": "Topic", "value": 8}, ...]
     "sentiment" format: {"positive": 80, "neutral": 15, "negative": 5}
@@ -62,25 +62,31 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
       });
     });
 
-    const text = completion.choices[0]?.message?.content || "[]";
+    const text = completion.choices[0]?.message?.content || "{}";
     let parsed: any;
 
     try {
       // Clean potential markdown or extra text
       const cleanText = text.replace(/```json|```/g, '').trim();
 
-      // Attempt to extract JSON if there's surrounding text
-      const jsonStart = cleanText.indexOf('[');
-      const jsonEnd = cleanText.lastIndexOf(']');
-      const finalJson = (jsonStart !== -1 && jsonEnd !== -1)
-        ? cleanText.substring(jsonStart, jsonEnd + 1)
-        : cleanText;
+      try {
+        parsed = JSON.parse(cleanText);
+      } catch (directParseError) {
+        // Fallback: Attempt to extract JSON if there's surrounding text
+        const jsonStart = cleanText.indexOf('{');
+        const jsonEnd = cleanText.lastIndexOf('}');
+        if (jsonStart !== -1 && jsonEnd !== -1) {
+          const finalJson = cleanText.substring(jsonStart, jsonEnd + 1);
+          parsed = JSON.parse(finalJson);
+        } else {
+          throw directParseError;
+        }
+      }
 
-      const rawParsed = JSON.parse(finalJson);
-      parsed = Array.isArray(rawParsed) ? rawParsed : (rawParsed.museums || rawParsed.data || Object.values(rawParsed)[0]);
+      parsed = Array.isArray(parsed) ? parsed : (parsed.museums || parsed.data || Object.values(parsed)[0]);
 
       if (!Array.isArray(parsed)) {
-        parsed = Array.isArray(rawParsed.results) ? rawParsed.results : [];
+        parsed = Array.isArray(parsed?.results) ? parsed.results : [];
       }
     } catch (e) {
       console.error("Parse failed", text);
