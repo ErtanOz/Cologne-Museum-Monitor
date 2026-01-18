@@ -279,13 +279,19 @@ function generateMockHistory(currentData: MuseumData[]): MuseumHistory[] {
       const date = new Date(today);
       date.setMonth(date.getMonth() - i);
 
-      const variance = Math.random() * 0.4 - 0.2;
-      const reviewVariance = Math.floor(Math.random() * 200);
-
+      // Ratings are usually very stable, only shifting by 0.1 at most over a year
+      const variance = (Math.random() * 0.1) - 0.05;
       let pastRating = museum.rating + variance;
       pastRating = Math.max(1, Math.min(5, pastRating));
 
-      const pastReviews = Math.max(0, museum.reviewCount - (i * reviewVariance));
+      // Review growth is typically 5-15% per year for established museums
+      // We'll simulate a steady monthly growth
+      const yearlyGrowthRate = 0.05 + (Math.random() * 0.1); // 5% to 15%
+      const monthlyGrowthRate = yearlyGrowthRate / 12;
+
+      // Calculate past reviews based on current count and distance in months
+      // Formula: past = current / (1 + rate)^months
+      const pastReviews = Math.floor(museum.reviewCount / Math.pow(1 + monthlyGrowthRate, i));
 
       history.push({
         name: museum.name,

@@ -33,14 +33,32 @@ async function retry<T>(fn: () => Promise<T>, retries = 3, delayMs = 2000): Prom
 
 export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData[]> => {
   // Processing in a single batch for OpenRouter to save on requests
+  // Hardcoded baselines to guide the AI for more realistic data
+  const baselines = `
+    Reference ballparks (Review Counts):
+    - Schokoladenmuseum: ~27,000
+    - Museum Ludwig: ~10,000
+    - Wallraf-Richartz-Museum: ~4,000
+    - NS-Dokumentationszentrum: ~2,400
+    - Odysseum: ~4,700
+    - Römisch-Germanisches Museum: ~3,000
+    - Museum für Angewandte Kunst: ~1,400
+    - Duftmuseum im Farina-Haus: ~2,000
+    - Rautenstrauch-Joest-Museum: ~1,500
+    - Museum Schnütgen: ~1,000
+    - Kolumba: ~1,000
+  `;
+
   const prompt = `
     Provide current information for the following museums in Cologne, Germany:
     ${museumNames.join(", ")}
 
+    ${baselines}
+
     For each museum, I need:
     1. The exact name.
-    2. The estimated current Google Maps rating (e.g., 4.5).
-    3. The approximate total number of reviews.
+    2. The actual current Google Maps rating (e.g., 4.7).
+    3. The actual total number of reviews (use figures close to the reference ballparks provided above).
     4. The address.
     5. A list of 6-8 common keywords/themes mentioned in reviews. Assign a relevance score (1-10) to each.
     6. An estimated sentiment distribution (positive, neutral, negative percentages).
