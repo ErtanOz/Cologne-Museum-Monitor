@@ -1,12 +1,17 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 import { MuseumData } from "../types";
 
-// Initialize the Google Generative AI client
-const genAI = new GoogleGenerativeAI((import.meta as any).env.VITE_GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ 
-  model: "gemini-2.0-flash-exp",
-  generationConfig: {
-    responseMimeType: "application/json",
+// Initialize the OpenRouter client
+const apiKey = (import.meta as any).env.VITE_OPENROUTER_API_KEY;
+console.log("OpenRouter API Key loaded:", apiKey ? "YES (starts with " + apiKey.substring(0, 10) + "...)" : "NO");
+
+const openai = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: apiKey,
+  dangerouslyAllowBrowser: true,
+  defaultHeaders: {
+    "HTTP-Referer": window.location.origin,
+    "X-Title": "Cologne Museum Monitor",
   }
 });
 
@@ -21,7 +26,7 @@ async function retry<T>(fn: () => Promise<T>, retries = 3, delayMs = 2000): Prom
     const isRetryable = msg.includes('429') || msg.includes('500') || msg.includes('503');
 
     if (isRetryable) {
-      console.warn(`Gemini API Error (Retrying... ${retries}): ${msg}`);
+      console.warn(`OpenRouter API Error (Retrying... ${retries}): ${msg}`);
       await delay(delayMs);
       return retry(fn, retries - 1, delayMs * 2);
     }
@@ -63,21 +68,62 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
     Each object must have: "name", "rating", "reviewCount", "address", "keywords", "sentiment".
     "keywords" format: [{"text": "Topic", "value": 8}, ...]
     "sentiment" format: {"positive": 80, "neutral": 15, "negative": 5}
+    
+    Ensure the JSON is valid. Return ONLY the JSON object.
   `;
 
   try {
-    const result = await retry(async () => {
-      const response = await model.generateContent(prompt);
-      return response.response.text();
+    console.log("Fetching museum data via OpenRouter (Llama 3.3 70B) for:", museumNames);
+    
+    const completion = await retry(async () => {
+      return await openai.chat.completions.create({
+        model: "meta-llama/llama-3.3-70b-instruct:free",
+        messages: [{ role: "user", content: prompt }],
+      });
     });
+
+    const result = completion.choices[0]?.message?.content || "{}";
+    console.log("Raw DeepSeek Response:", result);
 
     let parsed: any;
     try {
-      parsed = JSON.parse(result);
-      parsed = parsed.museums || parsed;
-    } catch (e) {
-      console.error("Parse failed", result);
-      throw new Error("Failed to parse Gemini API response");
+      // 1. Remove <think>...</think> blocks from reasoning models
+      let cleanText = result.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+
+      // 2. Extract JSON from markdown blocks if present
+      const markdownMatch = cleanText.match(/```(?:json)?([\s\S]*?)```/);
+      if (markdownMatch) {
+        cleanText = markdownMatch[1].trim();
+      }
+
+      // 3. Find the first '{' or '[' and the last '}' or ']'
+      const firstBrace = cleanText.search(/[{[]/);
+      const lastBrace = cleanText.search(/[}\]]$/); // Look from end
+      
+      if (firstBrace !== -1 && lastBrace !== -1) {
+         // Attempt to find the *actual* matching end brace if the simple search failed
+         // For now, simpler slice is usually enough if markdown stripped
+         // But better to just try parsing the cleaned text first
+      }
+
+      try {
+        parsed = JSON.parse(cleanText);
+      } catch (e) {
+        // Fallback: Try to substring the JSON part
+        const jsonStart = cleanText.indexOf('{');
+        const jsonEnd = cleanText.lastIndexOf('}');
+        if (jsonStart !== -1 && jsonEnd !== -1) {
+             parsed = JSON.parse(cleanText.substring(jsonStart, jsonEnd + 1));
+        } else {
+             throw e;
+        }
+      }
+      
+      console.log("Parsed Data:", parsed);
+      parsed = parsed.museums || parsed.data || parsed;
+    } catch (e: any) {
+      console.error("JSON Parse failed for DeepSeek response:", result);
+      throw new Error(`Failed to parse AI response: ${e.message}`);
     }
 
     const validatedData: MuseumData[] = (Array.isArray(parsed) ? parsed : []).map((item: any) => ({
@@ -95,11 +141,11 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
       sentiment: item.sentiment || { positive: 0, neutral: 0, negative: 0 }
     }));
 
-    if (validatedData.length === 0) throw new Error("No data returned");
+    if (validatedData.length === 0) throw new Error("No data returned from AI");
     return validatedData;
 
-  } catch (error) {
-    console.error("Gemini fetch failed:", error);
-    throw error;
+  } catch (error: any) {
+    console.error("OpenRouter fetch failed:", error);
+    throw new Error(error.message || "Failed to fetch museum data");
   }
 };
