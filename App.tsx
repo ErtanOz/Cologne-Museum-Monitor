@@ -93,8 +93,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     loadData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loadData]);
 
   // Filter data (Main Table)
   const filteredData = data.filter(m => m.rating >= minRatingFilter);

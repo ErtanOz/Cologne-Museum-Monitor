@@ -1,11 +1,18 @@
 import OpenAI from "openai";
 import { MuseumData } from "../types";
 
-// Initialize the OpenRouter client
+// CRITICAL SECURITY WARNING:
+// This configuration exposes the API key in client-side code, which is a security risk.
+// For production, you should:
+// 1. Create a backend API proxy (Express, Next.js API routes, or serverless functions)
+// 2. Move the API key to server-side environment variables
+// 3. Remove dangerouslyAllowBrowser flag
+// 4. Make API calls through your backend proxy
+// See: https://openrouter.ai/docs#security
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: (import.meta as any).env.VITE_OPENROUTER_API_KEY,
-  dangerouslyAllowBrowser: true, // Necessary for client-side demo
+  dangerouslyAllowBrowser: true, // ⚠️ SECURITY RISK - Only for development/demo
   defaultHeaders: {
     "HTTP-Referer": window.location.origin, // Optional, for OpenRouter rankings
     "X-Title": "Cologne Museum Monitor",

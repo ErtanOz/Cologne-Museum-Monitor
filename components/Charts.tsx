@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   LineChart, Line, Legend, AreaChart, Area
 } from 'recharts';
 import { MuseumData, MuseumHistory } from '../types';
 
+// Custom Tooltip Props Interface
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{ value: number; payload: { reviewCount: number } }>;
+  label?: string;
+}
+
 // Custom Tooltip for Bar Chart
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-slate-900/95 backdrop-blur-md text-white p-3 rounded-xl shadow-2xl border border-slate-700 text-xs">
@@ -20,8 +27,11 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export const RankingChart: React.FC<{ data: MuseumData[] }> = ({ data }) => {
-  // Sort data descending by rating for the chart
-  const chartData = [...data].sort((a, b) => b.rating - a.rating).slice(0, 10);
+  // Sort data descending by rating for the chart (memoized for performance)
+  const chartData = useMemo(
+    () => [...data].sort((a, b) => b.rating - a.rating).slice(0, 10),
+    [data]
+  );
 
   return (
     <div className="h-80 w-full">
@@ -83,7 +93,7 @@ export const TrendChart: React.FC<{ data: MuseumHistory[] }> = ({ data }) => {
             dataKey="date"
             tickFormatter={(str) => {
               const d = new Date(str);
-              return `${d.toLocaleString('default', { month: 'short' })} '${d.getFullYear().toString().substr(2)}`;
+              return `${d.toLocaleString('default', { month: 'short' })} '${d.getFullYear().toString().slice(-2)}`;
             }}
             tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 500 }}
             axisLine={false}
