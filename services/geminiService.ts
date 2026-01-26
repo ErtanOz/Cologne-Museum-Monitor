@@ -1,21 +1,12 @@
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { MuseumData } from "../types";
 
-// CRITICAL SECURITY WARNING:
-// This configuration exposes the API key in client-side code, which is a security risk.
-// For production, you should:
-// 1. Create a backend API proxy (Express, Next.js API routes, or serverless functions)
-// 2. Move the API key to server-side environment variables
-// 3. Remove dangerouslyAllowBrowser flag
-// 4. Make API calls through your backend proxy
-// See: https://openrouter.ai/docs#security
-const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: (import.meta as any).env.VITE_OPENROUTER_API_KEY,
-  dangerouslyAllowBrowser: true, // ⚠️ SECURITY RISK - Only for development/demo
-  defaultHeaders: {
-    "HTTP-Referer": window.location.origin, // Optional, for OpenRouter rankings
-    "X-Title": "Cologne Museum Monitor",
+// Initialize the Google Generative AI client
+const genAI = new GoogleGenerativeAI((import.meta as any).env.VITE_GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ 
+  model: "gemini-2.0-flash-exp",
+  generationConfig: {
+    responseMimeType: "application/json",
   }
 });
 
@@ -30,7 +21,7 @@ async function retry<T>(fn: () => Promise<T>, retries = 3, delayMs = 2000): Prom
     const isRetryable = msg.includes('429') || msg.includes('500') || msg.includes('503');
 
     if (isRetryable) {
-      console.warn(`OpenRouter API Error (Retrying... ${retries}): ${msg}`);
+      console.warn(`Gemini API Error (Retrying... ${retries}): ${msg}`);
       await delay(delayMs);
       return retry(fn, retries - 1, delayMs * 2);
     }
@@ -39,8 +30,6 @@ async function retry<T>(fn: () => Promise<T>, retries = 3, delayMs = 2000): Prom
 }
 
 export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData[]> => {
-  // Processing in a single batch for OpenRouter to save on requests
-  // Hardcoded baselines to guide the AI for more realistic data
   const baselines = `
     Reference ballparks (Review Counts):
     - Schokoladenmuseum: ~27,000
@@ -70,55 +59,28 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
     5. A list of 6-8 common keywords/themes mentioned in reviews. Assign a relevance score (1-10) to each.
     6. An estimated sentiment distribution (positive, neutral, negative percentages).
     
-    Return a standard JSON object with a single key "museums" containing an array of objects.
+    Return a JSON object with a key "museums" containing an array of objects.
     Each object must have: "name", "rating", "reviewCount", "address", "keywords", "sentiment".
     "keywords" format: [{"text": "Topic", "value": 8}, ...]
     "sentiment" format: {"positive": 80, "neutral": 15, "negative": 5}
-    
-    Ensure JSON is valid and return ONLY the JSON. No markdown.
   `;
 
   try {
-    const completion = await retry(async () => {
-      return await openai.chat.completions.create({
-        model: "xiaomi/mimo-v2-flash:free",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" }
-      });
+    const result = await retry(async () => {
+      const response = await model.generateContent(prompt);
+      return response.response.text();
     });
 
-    const text = completion.choices[0]?.message?.content || "{}";
     let parsed: any;
-
     try {
-      // Clean potential markdown or extra text
-      const cleanText = text.replace(/```json|```/g, '').trim();
-
-      try {
-        parsed = JSON.parse(cleanText);
-      } catch (directParseError) {
-        // Fallback: Attempt to extract JSON if there's surrounding text
-        const jsonStart = cleanText.indexOf('{');
-        const jsonEnd = cleanText.lastIndexOf('}');
-        if (jsonStart !== -1 && jsonEnd !== -1) {
-          const finalJson = cleanText.substring(jsonStart, jsonEnd + 1);
-          parsed = JSON.parse(finalJson);
-        } else {
-          throw directParseError;
-        }
-      }
-
-      parsed = Array.isArray(parsed) ? parsed : (parsed.museums || parsed.data || Object.values(parsed)[0]);
-
-      if (!Array.isArray(parsed)) {
-        parsed = Array.isArray(parsed?.results) ? parsed.results : [];
-      }
+      parsed = JSON.parse(result);
+      parsed = parsed.museums || parsed;
     } catch (e) {
-      console.error("Parse failed", text);
-      throw new Error("Failed to parse API response");
+      console.error("Parse failed", result);
+      throw new Error("Failed to parse Gemini API response");
     }
 
-    const validatedData: MuseumData[] = parsed.map((item: any) => ({
+    const validatedData: MuseumData[] = (Array.isArray(parsed) ? parsed : []).map((item: any) => ({
       name: item.name || "Unknown Museum",
       rating: Number(item.rating) || 0,
       reviewCount: Number(item.reviewCount) || 0,
@@ -137,7 +99,7 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
     return validatedData;
 
   } catch (error) {
-    console.error("OpenRouter fetch failed:", error);
+    console.error("Gemini fetch failed:", error);
     throw error;
   }
 };
