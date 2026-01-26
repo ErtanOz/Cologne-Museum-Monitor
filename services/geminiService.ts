@@ -1,14 +1,14 @@
 import OpenAI from "openai";
 import { MuseumData } from "../types";
 
-// Initialize the OpenRouter client
+// Initialize the OpenRouter client (via Vite proxy to avoid CORS)
 const apiKey = (import.meta as any).env.VITE_OPENROUTER_API_KEY;
 console.log("OpenRouter API Key loaded:", apiKey ? "YES (starts with " + apiKey.substring(0, 10) + "...)" : "NO");
 
 const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
+  baseURL: "/api/openrouter", // Proxied through Vite dev server
   apiKey: apiKey,
-  dangerouslyAllowBrowser: true,
+  dangerouslyAllowBrowser: true, // Still needed for client-side SDK
   defaultHeaders: {
     "HTTP-Referer": window.location.origin,
     "X-Title": "Cologne Museum Monitor",
