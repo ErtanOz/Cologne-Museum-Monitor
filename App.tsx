@@ -29,7 +29,7 @@ const TARGET_MUSEUMS = [
 ];
 
 const LOADING_MESSAGES = [
-  "Initializing AI Maps Grounding...",
+  "Initializing Gemini Maps Grounding...",
   "Searching for Cologne museums...",
   "Fetching ratings and review counts...",
   "Analyzing review sentiment...",
@@ -43,21 +43,18 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>(LOADING_MESSAGES[0]);
   const [error, setError] = useState<string | null>(null);
-
+  
   // Filters
   const [minRatingFilter, setMinRatingFilter] = useState<number>(0);
   const [timeRange, setTimeRange] = useState<string>('1y');
-
+  
   const [selectedMuseumId, setSelectedMuseumId] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-
-  // Mobile sidebar toggle
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
     setError(null);
-
+    
     // Cycle through loading messages to give user feedback on the process
     let msgIndex = 0;
     setLoadingMessage(LOADING_MESSAGES[0]);
@@ -67,18 +64,21 @@ const App: React.FC = () => {
     }, 2500);
 
     try {
+      // In a real app, we might check localStorage first for today's cache
+      // For this demo, we fetch live from Gemini
       const fetchedData = await fetchMuseumData(TARGET_MUSEUMS);
-
+      
       // Sort by rating descending by default
       const sortedData = fetchedData.sort((a, b) => b.rating - a.rating);
-
+      
       setData(sortedData);
       setLastUpdated(new Date());
 
-      // Simulate history for the trend chart
+      // Simulate history for the trend chart since we can't actually scrape daily in this session
+      // In a real deployed app, this would come from a database.
       const mockHistory = generateMockHistory(sortedData);
       setHistory(mockHistory);
-
+      
       if (sortedData.length > 0) {
         setSelectedMuseumId(sortedData[0].name);
       }
@@ -94,7 +94,7 @@ const App: React.FC = () => {
   useEffect(() => {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // Run once on mount
 
   // Filter data (Main Table)
   const filteredData = data.filter(m => m.rating >= minRatingFilter);
@@ -103,7 +103,7 @@ const App: React.FC = () => {
   const filteredHistory = useMemo(() => {
     const now = new Date();
     let cutoffDate = new Date();
-
+    
     switch (timeRange) {
       case '1m':
         cutoffDate.setMonth(now.getMonth() - 1);
@@ -128,137 +128,99 @@ const App: React.FC = () => {
 
   // Prepare data for details view
   const selectedMuseum = data.find(m => m.name === selectedMuseumId);
+  // Filter history for specific museum AND time range
   const selectedMuseumHistory = filteredHistory.filter(h => h.name === selectedMuseumId);
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-slate-900 text-white rounded-lg shadow-lg hover:bg-slate-800 transition-all duration-200 hover:scale-105"
-        aria-label="Toggle menu"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          {sidebarOpen ? (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          ) : (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          )}
-        </svg>
-      </button>
-
-      {/* Mobile Overlay */}
-      {sidebarOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity animate-fadeIn"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <div className={`
-        fixed lg:static inset-y-0 left-0 z-40
-        transform transition-transform duration-300 ease-in-out
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
-        <Sidebar
-          minRating={minRatingFilter}
-          onFilterChange={setMinRatingFilter}
-          timeRange={timeRange}
-          onTimeRangeChange={setTimeRange}
-          onRefresh={loadData}
-          loading={loading}
-        />
-      </div>
+    <div className="flex h-screen bg-slate-50 overflow-hidden">
+      <Sidebar 
+        minRating={minRatingFilter} 
+        onFilterChange={setMinRatingFilter} 
+        timeRange={timeRange}
+        onTimeRangeChange={setTimeRange}
+        onRefresh={loadData}
+        loading={loading}
+      />
 
       <main className="flex-1 flex flex-col h-full overflow-y-auto">
         <Header lastUpdated={lastUpdated} title="Cologne Museum Monitor" />
 
-        <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
+        <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
           {error && <ErrorDisplay message={error} onRetry={loadData} />}
-
+          
           {loading && !data.length ? (
             <Loader message={loadingMessage} />
           ) : (
             <>
               <MetricCards topMuseums={top3} />
 
-              {/* Main Dashboard: Selected Museum Focus */}
-              <div className="space-y-6">
-                <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-500 animate-slideUp">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-indigo-50 rounded-lg">
-                        <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-                        </svg>
-                      </div>
-                      <h2 className="text-2xl font-black text-slate-800 tracking-tight">
-                        History: {selectedMuseumId || 'Select a Museum'}
-                      </h2>
-                    </div>
-                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full shadow-sm border border-indigo-100">
-                      Last {timeRange === '1y' ? '1 Year' : timeRange === '6m' ? '6 Months' : timeRange === '3m' ? '3 Months' : '1 Month'}
-                    </span>
-                  </div>
-
-                  <div className="h-[400px]">
-                    <TrendChart data={selectedMuseumHistory} />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Sentiment Card */}
-                  <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-500 animate-slideUp" style={{ animationDelay: '100ms' }}>
-                    {selectedMuseum ? (
-                      <SentimentAnalysis sentiment={selectedMuseum.sentiment} />
-                    ) : (
-                      <div className="h-64 flex items-center justify-center text-slate-400 text-sm italic">Select a museum to view sentiment</div>
-                    )}
-                  </div>
-
-                  {/* Review Topics Card */}
-                  <div className="bg-white p-2 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-500 animate-slideUp" style={{ animationDelay: '200ms' }}>
-                    {selectedMuseum ? (
-                      <WordCloud keywords={selectedMuseum.keywords} />
-                    ) : (
-                      <div className="h-64 flex items-center justify-center text-slate-400 text-sm italic">Select a museum to view topics</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Secondary View: Global Rankings & All Data */}
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 pt-6">
-                {/* Ranking Chart */}
-                <div className="xl:col-span-1 bg-white p-6 rounded-2xl shadow-lg border border-slate-200 flex flex-col hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '300ms' }}>
-                  <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                    <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    Top Ratings Ranking
-                  </h3>
-                  <div className="flex-1">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Left Column: Ranking */}
+                <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col">
+                  <h3 className="text-lg font-semibold text-slate-800 mb-4">Current Ratings Ranking</h3>
+                  <div className="flex-1 min-h-[300px]">
                     <RankingChart data={filteredData} />
                   </div>
                 </div>
 
-                {/* Museum Data Table */}
-                <div className="xl:col-span-2 bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 animate-slideUp" style={{ animationDelay: '400ms' }}>
-                  <div className="p-6 border-b border-slate-100 bg-slate-50/50">
-                    <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                      </svg>
-                      All Museums Data
-                    </h3>
+                {/* Right Column: Selected Museum Details */}
+                <div className="flex flex-col gap-6">
+                  {/* Trend Chart */}
+                  <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-lg font-semibold text-slate-800">
+                        History: {selectedMuseumId || 'Select a Museum'}
+                      </h3>
+                      <span className="text-xs font-medium text-indigo-600 bg-indigo-50 px-2 py-1 rounded">
+                        Last {timeRange === '1y' ? '1 Year' : timeRange === '6m' ? '6 Months' : timeRange === '3m' ? '3 Months' : '1 Month'}
+                      </span>
+                    </div>
+                    <div className="h-48">
+                       <TrendChart data={selectedMuseumHistory} />
+                    </div>
                   </div>
-                  <MuseumTable
-                    data={filteredData}
-                    onSelect={setSelectedMuseumId}
-                    selectedId={selectedMuseumId}
-                  />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Sentiment Analysis */}
+                    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                      <h3 className="text-lg font-semibold text-slate-800 mb-4">
+                        Sentiment Analysis
+                      </h3>
+                      <div className="min-h-[120px] flex items-center justify-center">
+                        {selectedMuseum ? (
+                          <SentimentAnalysis sentiment={selectedMuseum.sentiment} />
+                        ) : (
+                          <span className="text-slate-400 text-sm">Select a museum</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Word Cloud */}
+                    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col">
+                       <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                        Review Topics
+                      </h3>
+                      <div className="flex-1 min-h-[120px] bg-slate-50 rounded-lg border border-slate-100">
+                        {selectedMuseum ? (
+                          <WordCloud keywords={selectedMuseum.keywords} />
+                        ) : (
+                          <div className="h-full flex items-center justify-center text-slate-400 text-sm">Select a museum</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+                <div className="p-6 border-b border-slate-100">
+                  <h3 className="text-lg font-semibold text-slate-800">Museum Data Table</h3>
+                </div>
+                <MuseumTable 
+                  data={filteredData} 
+                  onSelect={setSelectedMuseumId}
+                  selectedId={selectedMuseumId}
+                />
               </div>
             </>
           )}
@@ -278,20 +240,14 @@ function generateMockHistory(currentData: MuseumData[]): MuseumHistory[] {
     for (let i = 11; i >= 0; i--) {
       const date = new Date(today);
       date.setMonth(date.getMonth() - i);
-
-      // Ratings are usually very stable, only shifting by 0.1 at most over a year
-      const variance = (Math.random() * 0.1) - 0.05;
+      
+      const variance = Math.random() * 0.4 - 0.2; 
+      const reviewVariance = Math.floor(Math.random() * 200); 
+      
       let pastRating = museum.rating + variance;
       pastRating = Math.max(1, Math.min(5, pastRating));
-
-      // Review growth is typically 5-15% per year for established museums
-      // We'll simulate a steady monthly growth
-      const yearlyGrowthRate = 0.05 + (Math.random() * 0.1); // 5% to 15%
-      const monthlyGrowthRate = yearlyGrowthRate / 12;
-
-      // Calculate past reviews based on current count and distance in months
-      // Formula: past = current / (1 + rate)^months
-      const pastReviews = Math.floor(museum.reviewCount / Math.pow(1 + monthlyGrowthRate, i));
+      
+      const pastReviews = Math.max(0, museum.reviewCount - (i * reviewVariance));
 
       history.push({
         name: museum.name,

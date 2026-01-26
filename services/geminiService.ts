@@ -1,16 +1,9 @@
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import { MuseumData } from "../types";
 
-// Initialize the OpenRouter client
-const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: (import.meta as any).env.VITE_OPENROUTER_API_KEY,
-  dangerouslyAllowBrowser: true, // Necessary for client-side demo
-  defaultHeaders: {
-    "HTTP-Referer": window.location.origin, // Optional, for OpenRouter rankings
-    "X-Title": "Cologne Museum Monitor",
-  }
-});
+// Initialize the API client. 
+// We rely on the generic API key env var as per instructions.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -19,118 +12,115 @@ async function retry<T>(fn: () => Promise<T>, retries = 3, delayMs = 2000): Prom
     return await fn();
   } catch (error: any) {
     if (retries <= 0) throw error;
+    
     const msg = error?.message || JSON.stringify(error);
-    const isRetryable = msg.includes('429') || msg.includes('500') || msg.includes('503');
-
-    if (isRetryable) {
-      console.warn(`OpenRouter API Error (Retrying... ${retries}): ${msg}`);
-      await delay(delayMs);
-      return retry(fn, retries - 1, delayMs * 2);
+    // Retry on server errors or rate limits
+    const isServerSideError = msg.includes('500') || msg.includes('503') || msg.includes('Internal error') || msg.includes('429');
+    
+    if (isServerSideError) {
+       console.warn(`Gemini API Error (Retrying... ${retries} attempts left): ${msg}`);
+       await delay(delayMs);
+       return retry(fn, retries - 1, delayMs * 2);
     }
     throw error;
   }
 }
 
 export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData[]> => {
-  // Processing in a single batch for OpenRouter to save on requests
-  // Hardcoded baselines to guide the AI for more realistic data
-  const baselines = `
-    Reference ballparks (Review Counts):
-    - Schokoladenmuseum: ~27,000
-    - Museum Ludwig: ~10,000
-    - Wallraf-Richartz-Museum: ~4,000
-    - NS-Dokumentationszentrum: ~2,400
-    - Odysseum: ~4,700
-    - Römisch-Germanisches Museum: ~3,000
-    - Museum für Angewandte Kunst: ~1,400
-    - Duftmuseum im Farina-Haus: ~2,000
-    - Rautenstrauch-Joest-Museum: ~1,500
-    - Museum Schnütgen: ~1,000
-    - Kolumba: ~1,000
-  `;
-
-  const prompt = `
-    Provide current information for the following museums in Cologne, Germany:
-    ${museumNames.join(", ")}
-
-    ${baselines}
-
-    For each museum, I need:
-    1. The exact name.
-    2. The actual current Google Maps rating (e.g., 4.7).
-    3. The actual total number of reviews (use figures close to the reference ballparks provided above).
-    4. The address.
-    5. A list of 6-8 common keywords/themes mentioned in reviews. Assign a relevance score (1-10) to each.
-    6. An estimated sentiment distribution (positive, neutral, negative percentages).
-    
-    Return a standard JSON object with a single key "museums" containing an array of objects.
-    Each object must have: "name", "rating", "reviewCount", "address", "keywords", "sentiment".
-    "keywords" format: [{"text": "Topic", "value": 8}, ...]
-    "sentiment" format: {"positive": 80, "neutral": 15, "negative": 5}
-    
-    Ensure JSON is valid and return ONLY the JSON. No markdown.
-  `;
-
-  try {
-    const completion = await retry(async () => {
-      return await openai.chat.completions.create({
-        model: "xiaomi/mimo-v2-flash:free",
-        messages: [{ role: "user", content: prompt }],
-        response_format: { type: "json_object" }
-      });
-    });
-
-    const text = completion.choices[0]?.message?.content || "{}";
-    let parsed: any;
-
-    try {
-      // Clean potential markdown or extra text
-      const cleanText = text.replace(/```json|```/g, '').trim();
-
-      try {
-        parsed = JSON.parse(cleanText);
-      } catch (directParseError) {
-        // Fallback: Attempt to extract JSON if there's surrounding text
-        const jsonStart = cleanText.indexOf('{');
-        const jsonEnd = cleanText.lastIndexOf('}');
-        if (jsonStart !== -1 && jsonEnd !== -1) {
-          const finalJson = cleanText.substring(jsonStart, jsonEnd + 1);
-          parsed = JSON.parse(finalJson);
-        } else {
-          throw directParseError;
-        }
-      }
-
-      parsed = Array.isArray(parsed) ? parsed : (parsed.museums || parsed.data || Object.values(parsed)[0]);
-
-      if (!Array.isArray(parsed)) {
-        parsed = Array.isArray(parsed?.results) ? parsed.results : [];
-      }
-    } catch (e) {
-      console.error("Parse failed", text);
-      throw new Error("Failed to parse API response");
-    }
-
-    const validatedData: MuseumData[] = parsed.map((item: any) => ({
-      name: item.name || "Unknown Museum",
-      rating: Number(item.rating) || 0,
-      reviewCount: Number(item.reviewCount) || 0,
-      address: item.address || "",
-      url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((item.name || "") + " Cologne")}`,
-      keywords: Array.isArray(item.keywords)
-        ? item.keywords.map((k: any) => ({
-          text: String(k.text || "Keyword"),
-          value: Math.max(1, Math.min(10, Math.round(Number(k.value) || 5)))
-        }))
-        : [],
-      sentiment: item.sentiment || { positive: 0, neutral: 0, negative: 0 }
-    }));
-
-    if (validatedData.length === 0) throw new Error("No data returned");
-    return validatedData;
-
-  } catch (error) {
-    console.error("OpenRouter fetch failed:", error);
-    throw error;
+  // Batch requests to avoid hitting token limits or complexity errors with the Maps tool.
+  const BATCH_SIZE = 3;
+  const batches = [];
+  
+  for (let i = 0; i < museumNames.length; i += BATCH_SIZE) {
+    batches.push(museumNames.slice(i, i + BATCH_SIZE));
   }
+
+  const flatResults: any[] = [];
+
+  // SEQUENTIAL EXECUTION:
+  // We process batches one by one instead of Promise.all to drastically reduce the load on the backend
+  // and prevent 500 Internal Errors.
+  for (const batch of batches) {
+    try {
+      const batchResult = await retry(async () => {
+        const prompt = `
+          Find the following museums in Cologne, Germany using Google Maps:
+          ${batch.join(", ")}
+
+          For each museum, I need:
+          1. The exact name as listed on Google Maps.
+          2. The current rating (e.g., 4.5).
+          3. The total number of reviews (integer).
+          4. The address.
+          5. A list of 6-8 common keywords or short themes (1-2 words max) mentioned in reviews (e.g., "Architecture", "Friendly staff", "Long lines"). Assign a relevance score as an integer from 1 to 10 (where 10 is most relevant) to each keyword in the 'value' field.
+          6. An estimated sentiment distribution of the reviews as percentages (positive, neutral, negative) based on the overall rating and review content available.
+          
+          Return the data as a valid JSON array of objects. 
+          Each object must have these keys: "name", "rating", "reviewCount", "address", "keywords", "sentiment".
+          "keywords" should be an array of objects: [{"text": "Topic", "value": 8}, ...]
+          "sentiment" should be an object: {"positive": 80, "neutral": 15, "negative": 5} (numbers must sum to 100).
+          
+          Ensure "rating" is a number and "reviewCount" is a number.
+          Do not include markdown formatting like \`\`\`json. Just return the raw JSON string if possible.
+        `;
+
+        const response = await ai.models.generateContent({
+          model: "gemini-2.5-flash", 
+          contents: prompt,
+          config: {
+            tools: [{ googleMaps: {} }],
+            temperature: 0.1,
+          },
+        });
+
+        const text = response.text || "";
+        const cleanText = text.replace(/```json|```/g, '').trim();
+        
+        try {
+          const parsed = JSON.parse(cleanText);
+          if (Array.isArray(parsed)) {
+              return parsed;
+          }
+          return [];
+        } catch (e) {
+          console.warn("Failed to parse batch response", cleanText);
+          return [];
+        }
+      });
+
+      flatResults.push(...batchResult);
+
+      // Add a small delay between batches to respect rate limits and backend stability
+      if (batches.indexOf(batch) < batches.length - 1) {
+        await delay(1000); 
+      }
+
+    } catch (error) {
+      console.error("Batch processing failed:", error);
+      // We continue to the next batch even if one fails, to show partial data
+    }
+  }
+
+  if (flatResults.length === 0) {
+      throw new Error("No data could be retrieved from Google Maps. The service might be overloaded.");
+  }
+
+  // Validate and map data
+  const validatedData: MuseumData[] = flatResults.map((item: any) => ({
+    name: item.name || "Unknown Museum",
+    rating: typeof item.rating === 'number' ? item.rating : parseFloat(item.rating) || 0,
+    reviewCount: typeof item.reviewCount === 'number' ? item.reviewCount : parseInt(item.reviewCount) || 0,
+    address: item.address || "",
+    url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((item.name || "") + " Cologne")}`,
+    keywords: Array.isArray(item.keywords) 
+      ? item.keywords.map((k: any) => ({
+          text: typeof k.text === 'string' ? k.text : "Keyword",
+          // Ensure value is an integer between 1 and 10
+          value: typeof k.value === 'number' ? Math.max(1, Math.min(10, Math.round(k.value))) : 5
+        })) 
+      : [],
+    sentiment: item.sentiment || { positive: 0, neutral: 0, negative: 0 }
+  }));
+
+  return validatedData;
 };
