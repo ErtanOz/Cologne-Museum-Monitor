@@ -25,7 +25,18 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- Absolute path is standard for Vite root -->
-    <script type="module" src="/index.tsx"></script>
-  </body>
+  <div id="error-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; color: red; padding: 20px; z-index: 9999; font-family: monospace; white-space: pre-wrap;"></div>
+  <script>
+    window.onerror = function(msg, url, line, col, error) {
+      document.getElementById('error-overlay').style.display = 'block';
+      document.getElementById('error-overlay').innerText = 'CRITICAL ERROR:\n' + msg + '\n\nFile: ' + url + ':' + line + ':' + col + '\n\n' + (error ? error.stack : '');
+    };
+    window.addEventListener('unhandledrejection', function(event) {
+      document.getElementById('error-overlay').style.display = 'block';
+      document.getElementById('error-overlay').innerText = 'UNHANDLED PROMISE REJECTION:\n' + event.reason;
+    });
+  </script>
+  <!-- Use a relative path for the script tag -->
+  <script type="module" src="./index.tsx"></script>
+</body>
 </html>

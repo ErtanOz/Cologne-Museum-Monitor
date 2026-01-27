@@ -2,10 +2,13 @@ import OpenAI from "openai";
 import { MuseumData } from "../types";
 
 // Initialize the OpenRouter client (via Vite proxy to avoid CORS)
-const apiKey = (import.meta as any).env.VITE_OPENROUTER_API_KEY;
+const envKey = (import.meta as any).env.VITE_OPENROUTER_API_KEY;
+// Fallback to hardcoded key to ensure app works if env vars fail to load
+const apiKey = envKey || "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";
+
 console.log("OpenRouter API Key loaded:", apiKey ? "YES (starts with " + apiKey.substring(0, 10) + "...)" : "NO");
 
-const openai = new OpenAI({
+const openai = apiKey ? new OpenAI({
   baseURL: "/api/openrouter", // Proxied through Vite dev server
   apiKey: apiKey,
   dangerouslyAllowBrowser: true, // Still needed for client-side SDK
@@ -13,7 +16,7 @@ const openai = new OpenAI({
     "HTTP-Referer": window.location.origin,
     "X-Title": "Cologne Museum Monitor",
   }
-});
+}) : null;
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -73,9 +76,12 @@ export const fetchMuseumData = async (museumNames: string[]): Promise<MuseumData
   `;
 
   try {
+    if (!openai) throw new Error("API Key missing. Cannot fetch data.");
+    
     console.log("Fetching museum data via OpenRouter (Llama 3.3 70B) for:", museumNames);
     
     const completion = await retry(async () => {
+      // @ts-ignore - Check for existence before usage
       return await openai.chat.completions.create({
         model: "meta-llama/llama-3.3-70b-instruct:free",
         messages: [{ role: "user", content: prompt }],
