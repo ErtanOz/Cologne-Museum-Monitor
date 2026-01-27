@@ -35,7 +35,7 @@ export const RankingChart: React.FC<{ data: MuseumData[] }> = ({ data }) => {
 
   return (
     <div className="h-80 w-full">
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
         <BarChart
           layout="vertical"
           data={chartData}
@@ -76,7 +76,7 @@ export const TrendChart: React.FC<{ data: MuseumHistory[] }> = ({ data }) => {
 
   return (
     <div className="h-80 w-full mt-4">
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
         <LineChart data={sortedData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
