@@ -67,7 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <select
               value={timeRange}
               onChange={(e) => onTimeRangeChange(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 appearance-none cursor-pointer hover:bg-slate-750 transition-colors"
+              className="w-full bg-slate-800 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 appearance-none cursor-pointer hover:bg-slate-700 transition-colors"
             >
               <option value="1m">Last 1 Month</option>
               <option value="3m">Last 3 Months</option>
@@ -92,17 +92,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
             className={`w-full flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-medium text-sm ${loading ? 'opacity-75' : ''}`}
           >
             <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            {loading ? 'Fetching Data...' : 'Refresh Data'}
+            {loading ? 'Updating...' : 'Update Now'}
           </button>
           <p className="mt-2 text-xs text-slate-500">
-            Pulls live data via Gemini Maps Grounding.
+            Runs a synthetic refresh and updates daily snapshots.
           </p>
         </div>
       </div>
 
       <div className="p-6 border-t border-slate-800 text-xs text-slate-500">
         &copy; {new Date().getFullYear()} Museum Monitor<br/>
-        Powered by Gemini 2.5
+        Powered by Synthetic Engine
       </div>
     </aside>
   );

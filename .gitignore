@@ -11,6 +11,10 @@ node_modules
 dist
 dist-ssr
 *.local
+.devserver.log
+.devserver.err
+.preview.log
+.preview.err
 
 # Editor directories and files
 .vscode/*

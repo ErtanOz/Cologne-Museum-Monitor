@@ -1,0 +1,15 @@
+[
+  { "name": "Museum Ludwig", "textQuery": "Museum Ludwig Cologne" },
+  { "name": "Roemisch-Germanisches Museum", "textQuery": "Roemisch-Germanisches Museum Cologne" },
+  { "name": "Schokoladenmuseum Koeln", "textQuery": "Schokoladenmuseum Cologne" },
+  { "name": "Wallraf-Richartz-Museum", "textQuery": "Wallraf-Richartz-Museum Cologne" },
+  { "name": "Museum fuer Angewandte Kunst Koeln", "textQuery": "Museum fuer Angewandte Kunst Koeln Cologne" },
+  { "name": "NS-Dokumentationszentrum", "textQuery": "NS-Dokumentationszentrum Cologne" },
+  { "name": "Duftmuseum im Farina-Haus", "textQuery": "Duftmuseum im Farina-Haus Cologne" },
+  { "name": "Koelnisches Stadtmuseum", "textQuery": "Koelnisches Stadtmuseum Cologne" },
+  { "name": "Museum Schnuetgen", "textQuery": "Museum Schnuetgen Cologne" },
+  { "name": "Odysseum", "textQuery": "Odysseum Cologne" },
+  { "name": "Rautenstrauch-Joest-Museum", "textQuery": "Rautenstrauch-Joest-Museum Cologne" },
+  { "name": "Kolumba", "textQuery": "Kolumba Cologne" },
+  { "name": "Cologne Cathedral Treasury", "textQuery": "Cologne Cathedral Treasury Cologne" }
+]
