@@ -1,68 +1,60 @@
 {
-  "updatedAt": "2026-03-24T05:00:53.167Z",
+  "updatedAt": "2026-03-25T05:01:30.877Z",
   "data": [
     {
       "name": "Schokoladenmuseum Koeln",
       "placeId": "synthetic-schokoladenmuseum",
       "rating": 4.7,
-      "reviewCount": 32021,
+      "reviewCount": 32020,
       "address": "Am Schokoladenmuseum 1A, Cologne, Germany",
       "url": "https://maps.google.com/?q=Schokoladenmuseum+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Sofia A.",
+          "authorName": "Sam A.",
           "rating": 5,
           "text": "Factory section and tasting stations were a big highlight. family was a highlight.",
+          "relativeTime": "28 days ago"
+        },
+        {
+          "authorName": "Chris B.",
+          "rating": 4,
+          "text": "Informative tour with delicious extras in the end. family was a highlight.",
+          "relativeTime": "3 days ago"
+        },
+        {
+          "authorName": "Nora C.",
+          "rating": 4,
+          "text": "Informative tour with delicious extras in the end. tasting was a highlight.",
           "relativeTime": "11 days ago"
         },
         {
-          "authorName": "Dilan B.",
-          "rating": 4,
-          "text": "Informative tour with delicious extras in the end. tasting was a highlight.",
-          "relativeTime": "15 days ago"
-        },
-        {
-          "authorName": "Alex C.",
-          "rating": 4,
-          "text": "Factory section and tasting stations were a big highlight. tasting was a highlight.",
-          "relativeTime": "24 days ago"
-        },
-        {
           "authorName": "Sofia D.",
-          "rating": 3,
-          "text": "Fun and interactive chocolate experience for all ages. interactive was a highlight.",
-          "relativeTime": "16 days ago"
+          "rating": 5,
+          "text": "Factory section and tasting stations were a big highlight. interactive was a highlight.",
+          "relativeTime": "29 days ago"
         },
         {
-          "authorName": "Dilan E.",
-          "rating": 3,
-          "text": "Informative tour with delicious extras in the end. interactive was a highlight.",
-          "relativeTime": "13 days ago"
+          "authorName": "Chris E.",
+          "rating": 5,
+          "text": "Informative tour with delicious extras in the end. chocolate was a highlight.",
+          "relativeTime": "16 days ago"
         }
       ],
       "keywords": [
         {
-          "text": "tasting",
+          "text": "interactive",
           "value": 9
-        },
-        {
-          "text": "shop",
-          "value": 9
-        },
-        {
-          "text": "chocolate",
-          "value": 8
         },
         {
           "text": "family",
           "value": 8
         },
         {
-          "text": "interactive",
+          "text": "chocolate",
           "value": 7
         },
         {
-          "text": "kids",
+          "text": "shop",
           "value": 7
         },
         {
@@ -70,8 +62,16 @@
           "value": 6
         },
         {
+          "text": "tasting",
+          "value": 6
+        },
+        {
+          "text": "kids",
+          "value": 6
+        },
+        {
           "text": "tour",
-          "value": 5
+          "value": 6
         }
       ],
       "sentiment": {
@@ -80,625 +80,625 @@
         "negative": 1
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Kolumba",
       "placeId": "synthetic-kolumba",
       "rating": 4.7,
-      "reviewCount": 1981,
+      "reviewCount": 1982,
       "address": "Kolumbastrasse, Cologne, Germany",
       "url": "https://maps.google.com/?q=Kolumba+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Sam A.",
+          "authorName": "Nora A.",
           "rating": 4,
-          "text": "Unique interplay of art, space, and natural light. silence was a highlight.",
-          "relativeTime": "17 days ago"
+          "text": "Remarkable architecture and meditative atmosphere. design was a highlight.",
+          "relativeTime": "15 days ago"
         },
         {
-          "authorName": "Chris B.",
+          "authorName": "Sofia B.",
           "rating": 5,
-          "text": "Unique interplay of art, space, and natural light. silence was a highlight.",
-          "relativeTime": "12 days ago"
+          "text": "Carefully curated and architecturally stunning. minimal was a highlight.",
+          "relativeTime": "29 days ago"
         },
         {
-          "authorName": "Chris C.",
-          "rating": 3,
-          "text": "One of Cologne's most memorable museum experiences. art was a highlight.",
-          "relativeTime": "16 days ago"
-        },
-        {
-          "authorName": "Dilan D.",
+          "authorName": "Alex C.",
           "rating": 4,
-          "text": "Remarkable architecture and meditative atmosphere. art was a highlight.",
-          "relativeTime": "11 days ago"
+          "text": "One of Cologne's most memorable museum experiences. minimal was a highlight.",
+          "relativeTime": "3 days ago"
         },
         {
-          "authorName": "Lea E.",
+          "authorName": "Jonas D.",
           "rating": 3,
-          "text": "Unique interplay of art, space, and natural light. silence was a highlight.",
-          "relativeTime": "8 days ago"
+          "text": "Remarkable architecture and meditative atmosphere. design was a highlight.",
+          "relativeTime": "30 days ago"
+        },
+        {
+          "authorName": "Jonas E.",
+          "rating": 4,
+          "text": "Remarkable architecture and meditative atmosphere. design was a highlight.",
+          "relativeTime": "3 days ago"
         }
       ],
       "keywords": [
         {
-          "text": "design",
-          "value": 9
-        },
-        {
-          "text": "minimal",
-          "value": 8
+          "text": "architecture",
+          "value": 10
         },
         {
           "text": "light",
-          "value": 7
+          "value": 10
+        },
+        {
+          "text": "design",
+          "value": 8
         },
         {
           "text": "silence",
-          "value": 6
+          "value": 7
+        },
+        {
+          "text": "minimal",
+          "value": 7
         },
         {
           "text": "spiritual",
-          "value": 6
+          "value": 7
         },
         {
           "text": "art",
           "value": 6
         },
         {
-          "text": "architecture",
-          "value": 5
-        },
-        {
           "text": "space",
-          "value": 5
+          "value": 6
         }
       ],
       "sentiment": {
-        "positive": 83,
-        "neutral": 17,
+        "positive": 84,
+        "neutral": 16,
         "negative": 0
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Museum Ludwig",
       "placeId": "synthetic-museum-ludwig",
       "rating": 4.6,
-      "reviewCount": 12883,
+      "reviewCount": 12885,
       "address": "Heinrich-Boell-Platz, Cologne, Germany",
       "url": "https://maps.google.com/?q=Museum+Ludwig+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Alex A.",
+          "authorName": "Jonas A.",
           "rating": 5,
-          "text": "Well organized museum with thoughtful collection flow. picasso was a highlight.",
-          "relativeTime": "14 days ago"
+          "text": "Spacious galleries with strong curation and clear signage. gallery was a highlight.",
+          "relativeTime": "27 days ago"
         },
         {
-          "authorName": "Sam B.",
+          "authorName": "Jonas B.",
           "rating": 5,
-          "text": "Excellent modern art selection and rotating exhibitions. modern art was a highlight.",
-          "relativeTime": "14 days ago"
+          "text": "Spacious galleries with strong curation and clear signage. curation was a highlight.",
+          "relativeTime": "11 days ago"
         },
         {
-          "authorName": "Sam C.",
+          "authorName": "Sofia C.",
           "rating": 5,
-          "text": "Excellent modern art selection and rotating exhibitions. curation was a highlight.",
-          "relativeTime": "10 days ago"
-        },
-        {
-          "authorName": "Nora D.",
-          "rating": 4,
-          "text": "A highlight for contemporary art lovers in Cologne. gallery was a highlight.",
-          "relativeTime": "2 days ago"
-        },
-        {
-          "authorName": "Jonas E.",
-          "rating": 5,
-          "text": "A highlight for contemporary art lovers in Cologne. gallery was a highlight.",
+          "text": "Excellent modern art selection and rotating exhibitions. architecture was a highlight.",
           "relativeTime": "6 days ago"
+        },
+        {
+          "authorName": "Jonas D.",
+          "rating": 4,
+          "text": "A highlight for contemporary art lovers in Cologne. exhibition was a highlight.",
+          "relativeTime": "24 days ago"
+        },
+        {
+          "authorName": "Mina E.",
+          "rating": 5,
+          "text": "A highlight for contemporary art lovers in Cologne. picasso was a highlight.",
+          "relativeTime": "4 days ago"
         }
       ],
       "keywords": [
         {
-          "text": "picasso",
-          "value": 10
-        },
-        {
           "text": "exhibition",
-          "value": 10
-        },
-        {
-          "text": "river view",
-          "value": 9
-        },
-        {
-          "text": "collection",
           "value": 8
         },
         {
-          "text": "modern art",
-          "value": 7
-        },
-        {
-          "text": "gallery",
-          "value": 7
+          "text": "collection",
+          "value": 6
         },
         {
           "text": "architecture",
           "value": 6
         },
         {
+          "text": "river view",
+          "value": 6
+        },
+        {
           "text": "curation",
           "value": 6
+        },
+        {
+          "text": "gallery",
+          "value": 6
+        },
+        {
+          "text": "modern art",
+          "value": 5
+        },
+        {
+          "text": "picasso",
+          "value": 5
         }
       ],
       "sentiment": {
-        "positive": 82,
+        "positive": 83,
         "neutral": 16,
-        "negative": 2
+        "negative": 1
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "NS-Dokumentationszentrum",
       "placeId": "synthetic-ns-dok",
       "rating": 4.6,
-      "reviewCount": 3962,
+      "reviewCount": 3959,
       "address": "Appellhofplatz, Cologne, Germany",
       "url": "https://maps.google.com/?q=NS-Dokumentationszentrum+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Mina A.",
+          "authorName": "Dilan A.",
           "rating": 5,
-          "text": "Moving experience with essential historical context. education was a highlight.",
-          "relativeTime": "10 days ago"
+          "text": "Well curated material that leaves a lasting impression. history was a highlight.",
+          "relativeTime": "17 days ago"
         },
         {
-          "authorName": "Lea B.",
-          "rating": 5,
-          "text": "Powerful and important historical documentation center. human rights was a highlight.",
-          "relativeTime": "25 days ago"
-        },
-        {
-          "authorName": "Mina C.",
+          "authorName": "Sofia B.",
           "rating": 4,
-          "text": "Moving experience with essential historical context. human rights was a highlight.",
-          "relativeTime": "30 days ago"
+          "text": "Well curated material that leaves a lasting impression. history was a highlight.",
+          "relativeTime": "24 days ago"
+        },
+        {
+          "authorName": "Sofia C.",
+          "rating": 5,
+          "text": "Moving experience with essential historical context. archives was a highlight.",
+          "relativeTime": "24 days ago"
         },
         {
           "authorName": "Alex D.",
-          "rating": 3,
-          "text": "Moving experience with essential historical context. memorial was a highlight.",
-          "relativeTime": "25 days ago"
+          "rating": 4,
+          "text": "Moving experience with essential historical context. human rights was a highlight.",
+          "relativeTime": "26 days ago"
         },
         {
           "authorName": "Jonas E.",
           "rating": 5,
-          "text": "Moving experience with essential historical context. archives was a highlight.",
-          "relativeTime": "13 days ago"
+          "text": "Well curated material that leaves a lasting impression. reflection was a highlight.",
+          "relativeTime": "30 days ago"
         }
       ],
       "keywords": [
         {
-          "text": "memorial",
-          "value": 9
+          "text": "archives",
+          "value": 10
         },
         {
           "text": "human rights",
           "value": 9
         },
         {
-          "text": "exhibits",
-          "value": 9
+          "text": "memorial",
+          "value": 8
         },
         {
           "text": "education",
           "value": 8
         },
         {
+          "text": "history",
+          "value": 7
+        },
+        {
           "text": "documentation",
-          "value": 7
-        },
-        {
-          "text": "archives",
-          "value": 7
-        },
-        {
-          "text": "reflection",
           "value": 6
         },
         {
-          "text": "history",
+          "text": "exhibits",
+          "value": 6
+        },
+        {
+          "text": "reflection",
           "value": 5
         }
       ],
       "sentiment": {
-        "positive": 82,
-        "neutral": 17,
-        "negative": 1
+        "positive": 84,
+        "neutral": 14,
+        "negative": 2
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Duftmuseum im Farina-Haus",
       "placeId": "synthetic-duftmuseum",
       "rating": 4.5,
-      "reviewCount": 3157,
+      "reviewCount": 3156,
       "address": "Obenmarspforten 21, Cologne, Germany",
       "url": "https://maps.google.com/?q=Duftmuseum+Farina+Haus+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Sofia A.",
-          "rating": 5,
-          "text": "Interesting fragrance history and enjoyable demonstrations. fragrance was a highlight.",
-          "relativeTime": "14 days ago"
-        },
-        {
-          "authorName": "Jonas B.",
+          "authorName": "Nora A.",
           "rating": 3,
-          "text": "Unique perfume museum with engaging guided storytelling. scent was a highlight.",
-          "relativeTime": "18 days ago"
-        },
-        {
-          "authorName": "Sofia C.",
-          "rating": 3,
-          "text": "Unique perfume museum with engaging guided storytelling. storytelling was a highlight.",
-          "relativeTime": "7 days ago"
-        },
-        {
-          "authorName": "Alex D.",
-          "rating": 4,
-          "text": "Excellent guide and memorable scent experience. guided tour was a highlight.",
+          "text": "Excellent guide and memorable scent experience. scent was a highlight.",
           "relativeTime": "17 days ago"
         },
         {
-          "authorName": "Murat E.",
+          "authorName": "Sofia B.",
           "rating": 5,
-          "text": "Fun and informative stop in the old town area. storytelling was a highlight.",
-          "relativeTime": "18 days ago"
+          "text": "Unique perfume museum with engaging guided storytelling. guided tour was a highlight.",
+          "relativeTime": "8 days ago"
+        },
+        {
+          "authorName": "Alex C.",
+          "rating": 4,
+          "text": "Excellent guide and memorable scent experience. fragrance was a highlight.",
+          "relativeTime": "15 days ago"
+        },
+        {
+          "authorName": "Mina D.",
+          "rating": 3,
+          "text": "Excellent guide and memorable scent experience. shop was a highlight.",
+          "relativeTime": "6 days ago"
+        },
+        {
+          "authorName": "Lea E.",
+          "rating": 4,
+          "text": "Interesting fragrance history and enjoyable demonstrations. history was a highlight.",
+          "relativeTime": "27 days ago"
         }
       ],
       "keywords": [
         {
           "text": "fragrance",
-          "value": 10
+          "value": 9
+        },
+        {
+          "text": "history",
+          "value": 9
+        },
+        {
+          "text": "interactive",
+          "value": 9
         },
         {
           "text": "scent",
           "value": 9
         },
         {
-          "text": "shop",
+          "text": "guided tour",
           "value": 8
         },
         {
-          "text": "history",
+          "text": "perfume",
           "value": 7
         },
         {
-          "text": "perfume",
-          "value": 6
+          "text": "shop",
+          "value": 7
         },
         {
           "text": "storytelling",
-          "value": 6
-        },
-        {
-          "text": "guided tour",
-          "value": 5
-        },
-        {
-          "text": "interactive",
           "value": 5
         }
       ],
       "sentiment": {
-        "positive": 82,
-        "neutral": 16,
-        "negative": 2
+        "positive": 80,
+        "neutral": 15,
+        "negative": 5
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Wallraf-Richartz-Museum",
       "placeId": "synthetic-wallraf-richartz",
       "rating": 4.4,
-      "reviewCount": 6278,
+      "reviewCount": 6277,
       "address": "Obenmarspforten, Cologne, Germany",
       "url": "https://maps.google.com/?q=Wallraf-Richartz-Museum+Cologne",
       "reviewsSample": [
         {
           "authorName": "Alex A.",
-          "rating": 3,
-          "text": "Ideal museum for classical painting enthusiasts. collection was a highlight.",
-          "relativeTime": "24 days ago"
-        },
-        {
-          "authorName": "Jonas B.",
           "rating": 5,
-          "text": "Outstanding old master collection in a calm setting. painting was a highlight.",
-          "relativeTime": "16 days ago"
+          "text": "Quality exhibits with a peaceful and focused atmosphere. collection was a highlight.",
+          "relativeTime": "4 days ago"
         },
         {
-          "authorName": "Chris C.",
-          "rating": 5,
-          "text": "Ideal museum for classical painting enthusiasts. audio guide was a highlight.",
-          "relativeTime": "1 days ago"
-        },
-        {
-          "authorName": "Sam D.",
+          "authorName": "Alex B.",
           "rating": 4,
-          "text": "Beautifully curated galleries spanning several centuries. audio guide was a highlight.",
-          "relativeTime": "9 days ago"
+          "text": "Beautifully curated galleries spanning several centuries. old masters was a highlight.",
+          "relativeTime": "6 days ago"
         },
         {
-          "authorName": "Lea E.",
+          "authorName": "Alex C.",
+          "rating": 3,
+          "text": "Quality exhibits with a peaceful and focused atmosphere. curation was a highlight.",
+          "relativeTime": "21 days ago"
+        },
+        {
+          "authorName": "Chris D.",
           "rating": 5,
-          "text": "Ideal museum for classical painting enthusiasts. audio guide was a highlight.",
-          "relativeTime": "27 days ago"
+          "text": "Beautifully curated galleries spanning several centuries. old masters was a highlight.",
+          "relativeTime": "10 days ago"
+        },
+        {
+          "authorName": "Murat E.",
+          "rating": 5,
+          "text": "Quality exhibits with a peaceful and focused atmosphere. medieval was a highlight.",
+          "relativeTime": "14 days ago"
         }
       ],
       "keywords": [
         {
           "text": "painting",
-          "value": 10
-        },
-        {
-          "text": "medieval",
           "value": 9
         },
         {
-          "text": "quiet",
+          "text": "baroque",
           "value": 9
         },
         {
           "text": "collection",
           "value": 9
+        },
+        {
+          "text": "medieval",
+          "value": 8
         },
         {
           "text": "curation",
           "value": 8
         },
         {
-          "text": "audio guide",
-          "value": 8
-        },
-        {
-          "text": "baroque",
+          "text": "old masters",
           "value": 7
         },
         {
-          "text": "old masters",
-          "value": 5
+          "text": "quiet",
+          "value": 7
+        },
+        {
+          "text": "audio guide",
+          "value": 6
         }
       ],
       "sentiment": {
         "positive": 79,
-        "neutral": 17,
-        "negative": 4
+        "neutral": 16,
+        "negative": 5
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Museum Schnuetgen",
       "placeId": "synthetic-schnuetgen",
       "rating": 4.4,
-      "reviewCount": 1793,
+      "reviewCount": 1792,
       "address": "Caeclienstrasse, Cologne, Germany",
       "url": "https://maps.google.com/?q=Museum+Schnuetgen+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Chris A.",
+          "authorName": "Dilan A.",
           "rating": 5,
-          "text": "A hidden gem with unique atmosphere and curation. quiet was a highlight.",
-          "relativeTime": "25 days ago"
+          "text": "Quiet and contemplative museum experience. sculpture was a highlight.",
+          "relativeTime": "2 days ago"
         },
         {
-          "authorName": "Chris B.",
-          "rating": 5,
-          "text": "Impressive sculptures and sacred art pieces. medieval art was a highlight.",
-          "relativeTime": "9 days ago"
-        },
-        {
-          "authorName": "Lea C.",
-          "rating": 5,
-          "text": "Beautiful medieval art collection in a peaceful setting. quiet was a highlight.",
-          "relativeTime": "19 days ago"
-        },
-        {
-          "authorName": "Chris D.",
+          "authorName": "Nora B.",
           "rating": 4,
-          "text": "Quiet and contemplative museum experience. spiritual was a highlight.",
-          "relativeTime": "3 days ago"
+          "text": "Beautiful medieval art collection in a peaceful setting. craft was a highlight.",
+          "relativeTime": "30 days ago"
+        },
+        {
+          "authorName": "Mina C.",
+          "rating": 4,
+          "text": "A hidden gem with unique atmosphere and curation. craft was a highlight.",
+          "relativeTime": "16 days ago"
+        },
+        {
+          "authorName": "Lea D.",
+          "rating": 5,
+          "text": "Beautiful medieval art collection in a peaceful setting. sculpture was a highlight.",
+          "relativeTime": "26 days ago"
         },
         {
           "authorName": "Sofia E.",
-          "rating": 3,
-          "text": "Impressive sculptures and sacred art pieces. atmosphere was a highlight.",
-          "relativeTime": "21 days ago"
+          "rating": 5,
+          "text": "Impressive sculptures and sacred art pieces. medieval art was a highlight.",
+          "relativeTime": "25 days ago"
         }
       ],
       "keywords": [
         {
+          "text": "atmosphere",
+          "value": 9
+        },
+        {
           "text": "medieval art",
-          "value": 9
-        },
-        {
-          "text": "sculpture",
-          "value": 9
-        },
-        {
-          "text": "spiritual",
-          "value": 9
-        },
-        {
-          "text": "craft",
-          "value": 9
-        },
-        {
-          "text": "quiet",
           "value": 8
         },
         {
-          "text": "church",
-          "value": 7
-        },
-        {
           "text": "collection",
+          "value": 8
+        },
+        {
+          "text": "quiet",
           "value": 7
         },
         {
-          "text": "atmosphere",
-          "value": 6
+          "text": "spiritual",
+          "value": 7
+        },
+        {
+          "text": "church",
+          "value": 5
+        },
+        {
+          "text": "sculpture",
+          "value": 5
+        },
+        {
+          "text": "craft",
+          "value": 5
         }
       ],
       "sentiment": {
         "positive": 76,
-        "neutral": 19,
-        "negative": 5
+        "neutral": 18,
+        "negative": 6
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Cologne Cathedral Treasury",
       "placeId": "synthetic-cathedral-treasury",
       "rating": 4.4,
-      "reviewCount": 2512,
+      "reviewCount": 2515,
       "address": "Domkloster, Cologne, Germany",
       "url": "https://maps.google.com/?q=Cologne+Cathedral+Treasury",
       "reviewsSample": [
         {
-          "authorName": "Jonas A.",
-          "rating": 5,
-          "text": "Impressive sacred artifacts and treasury pieces. religious art was a highlight.",
-          "relativeTime": "3 days ago"
+          "authorName": "Mina A.",
+          "rating": 2,
+          "text": "Excellent complement to visiting the cathedral. artifacts was a highlight.",
+          "relativeTime": "8 days ago"
         },
         {
-          "authorName": "Mina B.",
-          "rating": 3,
-          "text": "Rich historical collection with beautiful details. gold was a highlight.",
-          "relativeTime": "7 days ago"
-        },
-        {
-          "authorName": "Jonas C.",
-          "rating": 5,
-          "text": "Impressive sacred artifacts and treasury pieces. religious art was a highlight.",
-          "relativeTime": "24 days ago"
-        },
-        {
-          "authorName": "Dilan D.",
+          "authorName": "Nora B.",
           "rating": 4,
-          "text": "Impressive sacred artifacts and treasury pieces. treasury was a highlight.",
-          "relativeTime": "25 days ago"
+          "text": "Excellent complement to visiting the cathedral. artifacts was a highlight.",
+          "relativeTime": "22 days ago"
+        },
+        {
+          "authorName": "Chris C.",
+          "rating": 4,
+          "text": "Excellent complement to visiting the cathedral. heritage was a highlight.",
+          "relativeTime": "6 days ago"
+        },
+        {
+          "authorName": "Jonas D.",
+          "rating": 3,
+          "text": "Impressive sacred artifacts and treasury pieces. religious art was a highlight.",
+          "relativeTime": "21 days ago"
         },
         {
           "authorName": "Chris E.",
-          "rating": 3,
-          "text": "Excellent complement to visiting the cathedral. treasury was a highlight.",
-          "relativeTime": "28 days ago"
+          "rating": 5,
+          "text": "Impressive sacred artifacts and treasury pieces. gold was a highlight.",
+          "relativeTime": "1 days ago"
         }
       ],
       "keywords": [
         {
-          "text": "history",
+          "text": "cathedral",
           "value": 10
         },
         {
-          "text": "gothic",
-          "value": 10
+          "text": "history",
+          "value": 9
+        },
+        {
+          "text": "heritage",
+          "value": 9
         },
         {
           "text": "religious art",
-          "value": 9
+          "value": 8
         },
         {
           "text": "gold",
-          "value": 9
+          "value": 8
+        },
+        {
+          "text": "gothic",
+          "value": 8
         },
         {
           "text": "artifacts",
-          "value": 9
-        },
-        {
-          "text": "cathedral",
           "value": 7
         },
         {
           "text": "treasury",
-          "value": 7
-        },
-        {
-          "text": "heritage",
-          "value": 5
+          "value": 6
         }
       ],
       "sentiment": {
-        "positive": 78,
-        "neutral": 18,
-        "negative": 4
+        "positive": 74,
+        "neutral": 20,
+        "negative": 6
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Roemisch-Germanisches Museum",
       "placeId": "synthetic-roemisch-germanisches",
       "rating": 4.3,
-      "reviewCount": 4872,
+      "reviewCount": 4866,
       "address": "Roncalliplatz, Cologne, Germany",
       "url": "https://maps.google.com/?q=Roemisch-Germanisches+Museum+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Lea A.",
-          "rating": 3,
-          "text": "Compact but informative exhibits with impressive mosaics. cathedral area was a highlight.",
-          "relativeTime": "30 days ago"
+          "authorName": "Nora A.",
+          "rating": 5,
+          "text": "Educational museum with memorable archaeological pieces. roman history was a highlight.",
+          "relativeTime": "19 days ago"
         },
         {
           "authorName": "Alex B.",
-          "rating": 5,
-          "text": "Educational museum with memorable archaeological pieces. guided tour was a highlight.",
-          "relativeTime": "2 days ago"
-        },
-        {
-          "authorName": "Nora C.",
-          "rating": 3,
-          "text": "Fascinating Roman artifacts and excellent historical context. roman history was a highlight.",
-          "relativeTime": "7 days ago"
-        },
-        {
-          "authorName": "Sofia D.",
           "rating": 4,
-          "text": "Fascinating Roman artifacts and excellent historical context. guided tour was a highlight.",
+          "text": "Great place to understand Cologne's ancient roots. roman history was a highlight.",
           "relativeTime": "16 days ago"
         },
         {
-          "authorName": "Lea E.",
+          "authorName": "Jonas C.",
           "rating": 5,
-          "text": "Educational museum with memorable archaeological pieces. archaeology was a highlight.",
-          "relativeTime": "4 days ago"
+          "text": "Fascinating Roman artifacts and excellent historical context. roman history was a highlight.",
+          "relativeTime": "21 days ago"
+        },
+        {
+          "authorName": "Mina D.",
+          "rating": 5,
+          "text": "Compact but informative exhibits with impressive mosaics. cathedral area was a highlight.",
+          "relativeTime": "21 days ago"
+        },
+        {
+          "authorName": "Sam E.",
+          "rating": 5,
+          "text": "Fascinating Roman artifacts and excellent historical context. ancient was a highlight.",
+          "relativeTime": "27 days ago"
         }
       ],
       "keywords": [
         {
-          "text": "guided tour",
+          "text": "cathedral area",
           "value": 10
         },
         {
@@ -707,27 +707,191 @@
         },
         {
           "text": "mosaics",
-          "value": 9
-        },
-        {
-          "text": "artifacts",
           "value": 8
-        },
-        {
-          "text": "ancient",
-          "value": 8
-        },
-        {
-          "text": "archaeology",
-          "value": 7
-        },
-        {
-          "text": "cathedral area",
-          "value": 6
         },
         {
           "text": "heritage",
+          "value": 7
+        },
+        {
+          "text": "artifacts",
           "value": 6
+        },
+        {
+          "text": "archaeology",
+          "value": 6
+        },
+        {
+          "text": "guided tour",
+          "value": 6
+        },
+        {
+          "text": "ancient",
+          "value": 5
+        }
+      ],
+      "sentiment": {
+        "positive": 72,
+        "neutral": 20,
+        "negative": 8
+      },
+      "source": "synthetic_engine",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
+      "syntheticConfidence": 0.84
+    },
+    {
+      "name": "Rautenstrauch-Joest-Museum",
+      "placeId": "synthetic-rjm",
+      "rating": 4.3,
+      "reviewCount": 2814,
+      "address": "Caeclienstrasse, Cologne, Germany",
+      "url": "https://maps.google.com/?q=Rautenstrauch-Joest-Museum+Cologne",
+      "reviewsSample": [
+        {
+          "authorName": "Murat A.",
+          "rating": 3,
+          "text": "Strong ethnology collection with modern presentation. global was a highlight.",
+          "relativeTime": "12 days ago"
+        },
+        {
+          "authorName": "Lea B.",
+          "rating": 1,
+          "text": "Thought-provoking world culture exhibits and context. audio guide was a highlight.",
+          "relativeTime": "18 days ago"
+        },
+        {
+          "authorName": "Chris C.",
+          "rating": 4,
+          "text": "Interesting museum with global perspectives. context was a highlight.",
+          "relativeTime": "7 days ago"
+        },
+        {
+          "authorName": "Dilan D.",
+          "rating": 5,
+          "text": "Interesting museum with global perspectives. audio guide was a highlight.",
+          "relativeTime": "20 days ago"
+        },
+        {
+          "authorName": "Nora E.",
+          "rating": 5,
+          "text": "Strong ethnology collection with modern presentation. diversity was a highlight.",
+          "relativeTime": "10 days ago"
+        }
+      ],
+      "keywords": [
+        {
+          "text": "objects",
+          "value": 10
+        },
+        {
+          "text": "diversity",
+          "value": 10
+        },
+        {
+          "text": "ethnology",
+          "value": 9
+        },
+        {
+          "text": "anthropology",
+          "value": 9
+        },
+        {
+          "text": "world cultures",
+          "value": 8
+        },
+        {
+          "text": "audio guide",
+          "value": 8
+        },
+        {
+          "text": "global",
+          "value": 6
+        },
+        {
+          "text": "context",
+          "value": 6
+        }
+      ],
+      "sentiment": {
+        "positive": 75,
+        "neutral": 18,
+        "negative": 7
+      },
+      "source": "synthetic_engine",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
+      "syntheticConfidence": 0.84
+    },
+    {
+      "name": "Museum fuer Angewandte Kunst Koeln",
+      "placeId": "synthetic-makk",
+      "rating": 4.2,
+      "reviewCount": 2646,
+      "address": "An der Rechtschule, Cologne, Germany",
+      "url": "https://maps.google.com/?q=Museum+fuer+Angewandte+Kunst+Koeln",
+      "reviewsSample": [
+        {
+          "authorName": "Jonas A.",
+          "rating": 3,
+          "text": "Interesting applied arts collection and modern layout. craft was a highlight.",
+          "relativeTime": "27 days ago"
+        },
+        {
+          "authorName": "Chris B.",
+          "rating": 5,
+          "text": "A strong stop for architecture and design fans. minimal was a highlight.",
+          "relativeTime": "4 days ago"
+        },
+        {
+          "authorName": "Jonas C.",
+          "rating": 4,
+          "text": "A strong stop for architecture and design fans. furniture was a highlight.",
+          "relativeTime": "12 days ago"
+        },
+        {
+          "authorName": "Mina D.",
+          "rating": 5,
+          "text": "A strong stop for architecture and design fans. layout was a highlight.",
+          "relativeTime": "13 days ago"
+        },
+        {
+          "authorName": "Dilan E.",
+          "rating": 4,
+          "text": "Thoughtful temporary exhibitions and clear structure. temporary show was a highlight.",
+          "relativeTime": "10 days ago"
+        }
+      ],
+      "keywords": [
+        {
+          "text": "design",
+          "value": 10
+        },
+        {
+          "text": "furniture",
+          "value": 9
+        },
+        {
+          "text": "craft",
+          "value": 9
+        },
+        {
+          "text": "minimal",
+          "value": 7
+        },
+        {
+          "text": "layout",
+          "value": 7
+        },
+        {
+          "text": "objects",
+          "value": 6
+        },
+        {
+          "text": "applied art",
+          "value": 5
+        },
+        {
+          "text": "temporary show",
+          "value": 5
         }
       ],
       "sentiment": {
@@ -736,227 +900,59 @@
         "negative": 9
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
-      "syntheticConfidence": 0.84
-    },
-    {
-      "name": "Rautenstrauch-Joest-Museum",
-      "placeId": "synthetic-rjm",
-      "rating": 4.3,
-      "reviewCount": 2815,
-      "address": "Caeclienstrasse, Cologne, Germany",
-      "url": "https://maps.google.com/?q=Rautenstrauch-Joest-Museum+Cologne",
-      "reviewsSample": [
-        {
-          "authorName": "Alex A.",
-          "rating": 3,
-          "text": "Strong ethnology collection with modern presentation. world cultures was a highlight.",
-          "relativeTime": "2 days ago"
-        },
-        {
-          "authorName": "Nora B.",
-          "rating": 5,
-          "text": "Interesting museum with global perspectives. ethnology was a highlight.",
-          "relativeTime": "25 days ago"
-        },
-        {
-          "authorName": "Sofia C.",
-          "rating": 3,
-          "text": "Thought-provoking world culture exhibits and context. context was a highlight.",
-          "relativeTime": "28 days ago"
-        },
-        {
-          "authorName": "Sam D.",
-          "rating": 5,
-          "text": "Interesting museum with global perspectives. audio guide was a highlight.",
-          "relativeTime": "23 days ago"
-        },
-        {
-          "authorName": "Murat E.",
-          "rating": 5,
-          "text": "Strong ethnology collection with modern presentation. context was a highlight.",
-          "relativeTime": "9 days ago"
-        }
-      ],
-      "keywords": [
-        {
-          "text": "ethnology",
-          "value": 10
-        },
-        {
-          "text": "global",
-          "value": 10
-        },
-        {
-          "text": "world cultures",
-          "value": 9
-        },
-        {
-          "text": "diversity",
-          "value": 9
-        },
-        {
-          "text": "objects",
-          "value": 8
-        },
-        {
-          "text": "context",
-          "value": 7
-        },
-        {
-          "text": "audio guide",
-          "value": 6
-        },
-        {
-          "text": "anthropology",
-          "value": 5
-        }
-      ],
-      "sentiment": {
-        "positive": 74,
-        "neutral": 19,
-        "negative": 7
-      },
-      "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
-      "syntheticConfidence": 0.84
-    },
-    {
-      "name": "Museum fuer Angewandte Kunst Koeln",
-      "placeId": "synthetic-makk",
-      "rating": 4.2,
-      "reviewCount": 2641,
-      "address": "An der Rechtschule, Cologne, Germany",
-      "url": "https://maps.google.com/?q=Museum+fuer+Angewandte+Kunst+Koeln",
-      "reviewsSample": [
-        {
-          "authorName": "Chris A.",
-          "rating": 5,
-          "text": "Interesting applied arts collection and modern layout. applied art was a highlight.",
-          "relativeTime": "28 days ago"
-        },
-        {
-          "authorName": "Mina B.",
-          "rating": 4,
-          "text": "Elegant design-focused exhibits with smart presentation. furniture was a highlight.",
-          "relativeTime": "5 days ago"
-        },
-        {
-          "authorName": "Mina C.",
-          "rating": 5,
-          "text": "Elegant design-focused exhibits with smart presentation. design was a highlight.",
-          "relativeTime": "15 days ago"
-        },
-        {
-          "authorName": "Murat D.",
-          "rating": 4,
-          "text": "Thoughtful temporary exhibitions and clear structure. furniture was a highlight.",
-          "relativeTime": "16 days ago"
-        },
-        {
-          "authorName": "Mina E.",
-          "rating": 5,
-          "text": "A strong stop for architecture and design fans. design was a highlight.",
-          "relativeTime": "13 days ago"
-        }
-      ],
-      "keywords": [
-        {
-          "text": "layout",
-          "value": 10
-        },
-        {
-          "text": "design",
-          "value": 8
-        },
-        {
-          "text": "objects",
-          "value": 8
-        },
-        {
-          "text": "temporary show",
-          "value": 8
-        },
-        {
-          "text": "applied art",
-          "value": 7
-        },
-        {
-          "text": "minimal",
-          "value": 6
-        },
-        {
-          "text": "furniture",
-          "value": 5
-        },
-        {
-          "text": "craft",
-          "value": 5
-        }
-      ],
-      "sentiment": {
-        "positive": 69,
-        "neutral": 21,
-        "negative": 10
-      },
-      "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Koelnisches Stadtmuseum",
       "placeId": "synthetic-stadtmuseum",
       "rating": 4.1,
-      "reviewCount": 1968,
+      "reviewCount": 1964,
       "address": "Minoritenstrasse, Cologne, Germany",
       "url": "https://maps.google.com/?q=Koelnisches+Stadtmuseum+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Mina A.",
-          "rating": 2,
-          "text": "Interesting local perspective with varied exhibits. local culture was a highlight.",
-          "relativeTime": "28 days ago"
+          "authorName": "Dilan A.",
+          "rating": 4,
+          "text": "Good overview of Cologne's city history and development. local culture was a highlight.",
+          "relativeTime": "24 days ago"
         },
         {
-          "authorName": "Alex B.",
+          "authorName": "Sam B.",
           "rating": 5,
-          "text": "Solid museum for understanding urban culture in Cologne. community was a highlight.",
-          "relativeTime": "13 days ago"
+          "text": "Interesting local perspective with varied exhibits. community was a highlight.",
+          "relativeTime": "26 days ago"
         },
         {
-          "authorName": "Murat C.",
-          "rating": 1,
-          "text": "Solid museum for understanding urban culture in Cologne. urban was a highlight.",
-          "relativeTime": "27 days ago"
+          "authorName": "Nora C.",
+          "rating": 3,
+          "text": "Interesting local perspective with varied exhibits. city history was a highlight.",
+          "relativeTime": "20 days ago"
         },
         {
-          "authorName": "Lea D.",
+          "authorName": "Sam D.",
+          "rating": 4,
+          "text": "Compact but informative collection with useful context. urban was a highlight.",
+          "relativeTime": "22 days ago"
+        },
+        {
+          "authorName": "Jonas E.",
           "rating": 5,
-          "text": "Interesting local perspective with varied exhibits. local culture was a highlight.",
-          "relativeTime": "10 days ago"
-        },
-        {
-          "authorName": "Chris E.",
-          "rating": 5,
-          "text": "Good overview of Cologne's city history and development. exhibits was a highlight.",
-          "relativeTime": "7 days ago"
+          "text": "Solid museum for understanding urban culture in Cologne. exhibits was a highlight.",
+          "relativeTime": "19 days ago"
         }
       ],
       "keywords": [
+        {
+          "text": "community",
+          "value": 10
+        },
         {
           "text": "timeline",
           "value": 9
         },
         {
           "text": "exhibits",
-          "value": 9
-        },
-        {
-          "text": "stories",
-          "value": 9
-        },
-        {
-          "text": "city history",
           "value": 8
         },
         {
@@ -964,77 +960,93 @@
           "value": 8
         },
         {
+          "text": "stories",
+          "value": 8
+        },
+        {
+          "text": "urban",
+          "value": 8
+        },
+        {
           "text": "local culture",
           "value": 6
         },
         {
-          "text": "urban",
-          "value": 6
-        },
-        {
-          "text": "community",
+          "text": "city history",
           "value": 5
         }
       ],
       "sentiment": {
-        "positive": 69,
-        "neutral": 18,
-        "negative": 13
+        "positive": 68,
+        "neutral": 20,
+        "negative": 12
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     },
     {
       "name": "Odysseum",
       "placeId": "synthetic-odysseum",
       "rating": 4.1,
-      "reviewCount": 6684,
+      "reviewCount": 6680,
       "address": "Corintostrasse, Cologne, Germany",
       "url": "https://maps.google.com/?q=Odysseum+Cologne",
       "reviewsSample": [
         {
-          "authorName": "Chris A.",
-          "rating": 4,
-          "text": "Fun educational stop with energetic atmosphere. interactive was a highlight.",
-          "relativeTime": "1 days ago"
+          "authorName": "Sam A.",
+          "rating": 5,
+          "text": "Good option for kids and school-age visitors. family was a highlight.",
+          "relativeTime": "17 days ago"
         },
         {
           "authorName": "Sam B.",
-          "rating": 4,
-          "text": "Great interactive science activities for children. interactive was a highlight.",
+          "rating": 5,
+          "text": "Good option for kids and school-age visitors. family was a highlight.",
+          "relativeTime": "6 days ago"
+        },
+        {
+          "authorName": "Dilan C.",
+          "rating": 5,
+          "text": "Fun educational stop with energetic atmosphere. hands-on was a highlight.",
+          "relativeTime": "11 days ago"
+        },
+        {
+          "authorName": "Mina D.",
+          "rating": 5,
+          "text": "Good option for kids and school-age visitors. activities was a highlight.",
           "relativeTime": "16 days ago"
         },
         {
-          "authorName": "Murat C.",
-          "rating": 3,
-          "text": "Good option for kids and school-age visitors. activities was a highlight.",
-          "relativeTime": "30 days ago"
-        },
-        {
-          "authorName": "Nora D.",
-          "rating": 5,
-          "text": "Good option for kids and school-age visitors. activities was a highlight.",
-          "relativeTime": "15 days ago"
-        },
-        {
           "authorName": "Chris E.",
-          "rating": 5,
-          "text": "Great interactive science activities for children. experiments was a highlight.",
-          "relativeTime": "1 days ago"
+          "rating": 4,
+          "text": "Great interactive science activities for children. family was a highlight.",
+          "relativeTime": "5 days ago"
         }
       ],
       "keywords": [
+        {
+          "text": "interactive",
+          "value": 10
+        },
         {
           "text": "hands-on",
           "value": 10
         },
         {
           "text": "family",
-          "value": 9
+          "value": 10
         },
         {
           "text": "activities",
+          "value": 10
+        },
+        {
+          "text": "education",
+          "value": 9
+        },
+        {
+          "text": "science",
           "value": 8
         },
         {
@@ -1042,35 +1054,23 @@
           "value": 8
         },
         {
-          "text": "science",
-          "value": 7
-        },
-        {
           "text": "kids",
           "value": 6
-        },
-        {
-          "text": "education",
-          "value": 6
-        },
-        {
-          "text": "interactive",
-          "value": 5
         }
       ],
       "sentiment": {
-        "positive": 69,
+        "positive": 67,
         "neutral": 21,
-        "negative": 10
+        "negative": 12
       },
       "source": "synthetic_engine",
-      "fetchedAt": "2026-03-24T05:00:53.167Z",
+      "fetchedAt": "2026-03-25T05:01:30.877Z",
       "syntheticConfidence": 0.84
     }
   ],
   "diagnostics": {
     "provider": "synthetic_engine",
-    "lastSyncAt": "2026-03-24T05:00:53.167Z",
+    "lastSyncAt": "2026-03-25T05:01:30.877Z",
     "refreshAttempted": true,
     "refreshSkipped": false,
     "refreshReason": "daily",
@@ -1079,6 +1079,6 @@
     "warnings": [],
     "message": "Synthetic data mode active. Data generated from deterministic baseline model.",
     "generatorVersion": "synthetic-engine-v1",
-    "seedDate": "2026-03-24"
+    "seedDate": "2026-03-25"
   }
 }
