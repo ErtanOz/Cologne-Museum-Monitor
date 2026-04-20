@@ -113,7 +113,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    loadData({ refreshReason: 'page_load', forceRefresh: false });
+    loadData();
   }, [loadData]);
 
   const filteredData = data.filter((museum) => museum.rating >= minRatingFilter);

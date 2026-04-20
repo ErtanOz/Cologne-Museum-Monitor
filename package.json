@@ -9,6 +9,7 @@
     "dev:api": "tsx watch server/index.ts",
     "start:api": "tsx server/index.ts",
     "sync:data": "tsx server/syncCli.ts",
+    "prebuild": "tsx scripts/generate-api-data.ts",
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",

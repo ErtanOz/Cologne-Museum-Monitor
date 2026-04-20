@@ -6,11 +6,34 @@
 [functions]
   node_bundler = "esbuild"
 
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Content-Type = "application/json"
+
+# More specific routes first
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api"
+  from = "/api/health"
+  to = "/api/health.json"
   status = 200
 
+[[redirects]]
+  from = "/api/museums/history"
+  to = "/api/history.json"
+  status = 200
+
+[[redirects]]
+  from = "/api/museums/refresh"
+  to = "/.netlify/functions/refresh"
+  status = 200
+
+[[redirects]]
+  from = "/api/museums"
+  to = "/api/museums.json"
+  status = 200
+
+# SPA fallback — must be last
 [[redirects]]
   from = "/*"
   to = "/index.html"
