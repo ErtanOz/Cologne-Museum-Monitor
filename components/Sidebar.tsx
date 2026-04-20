@@ -102,7 +102,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       <div className="p-6 border-t border-slate-800 text-xs text-slate-500">
         &copy; {new Date().getFullYear()} Museum Monitor<br/>
-        Powered by Synthetic Engine
+        Powered by Synthetic Engine<br/>
+        <a href="mailto:ozcanertan@gmail.com" className="text-indigo-400 hover:text-indigo-300 transition-colors">
+          ozcanertan@gmail.com
+        </a>
       </div>
     </aside>
   );
